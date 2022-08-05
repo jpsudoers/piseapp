@@ -1,0 +1,158 @@
+
+{% extends 'base.html' %}
+{% block title %}Caso Accidente Escolar{% endblock title %}
+{% block content-header %}
+<div class="card-header">
+    <div class="card-tools">
+        <a href="#" class="btn btn-tool"></a>
+        <a href="" class="btn btn-tool">
+            <i class="fas fa-edit"></i>
+        </a>
+        <a href="" class="btn btn-tool">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+</div>
+{% endblock content-header %}
+{% block fullcard %}
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-sm-6">
+                <h1 class="display-6">Detalle accidente</h1>
+            </div>
+        </div>
+
+        <div class="card-body">
+            <div class="row">
+                <div class="col-sm-12">
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Nombre Afectado
+                        </label>
+                        <div class="col">
+                            {{caso.accidentado.alumno}}
+                        </div>
+                    </div>
+
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Curso
+                        </label>
+                        <div class="col">
+                            {{caso.accidentado.curso}} {{caso.accidentado.nivel}}
+                        </div>
+                    </div>
+
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Fecha Nacimiento
+                        </label>
+                        <div class="col">
+                            {{caso.accidentado.alumno.fecha_nacimiento}}
+                        </div>
+                    </div>
+        
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Apoderado
+                        </label>
+                        <div class="col">
+                            {{caso.accidentado.alumno.nombre_apoderado}}
+                        </div>
+                    </div>
+        
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Domicilio Actual
+                        </label>
+                        <div class="col">
+                            {{caso.accidentado.alumno.domicilio_actual}}
+                        </div>
+                    </div>
+
+                    <hr>
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Fecha Ingreso del Caso
+                        </label>
+                        <div class="col">
+                            {{caso.fecha_ingreso}}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Malestar Físico
+                        </label>
+                        <div class="col">
+                            {{caso.malestar_fisico}}
+                        </div>
+                    </div>
+
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Nombre de Familiar de Contacto
+                        </label>
+                        <div class="col">
+                            {{caso.nombre_familiar_contacto}}
+                        </div>
+                    </div>
+
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Instruccion Familiar
+                        </label>
+                        <div class="col">
+                            {{caso.instruccion_familiar}}
+                        </div>
+                    </div>
+                    
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Consecuencias Médicas
+                        </label>
+                        <div class="col">
+                            {{caso.consecuencias_medicas}}
+                        </div>
+                    </div>
+
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Detalle del Relato
+                        </label>
+                        <div class="col">
+                            {{caso.detalle_relato}}
+                        </div>
+                    </div>
+
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Declaracion de Accidente del alumno
+                        </label>
+                        <div class="col">
+                            {% if caso.archivo_declaracion_individual%}
+                                <a href="{{ caso.archivo_declaracion_individual.url }}">Ir</a>
+                            {% else %}
+                                No tiene cargado archivo declaracion individual, favor actualizar.
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <hr>
+            <a href="{% url 'update_accidente' caso.pk %}" class="btn btn-success">Actualizar Datos del Caso</a>
+            <a href="{% url 'update_estado_accidente' caso.pk %}" class="btn btn-success">Actualizar Estado</a>
+        </div>
+    </div>
+</div>
+
+{% endblock fullcard %}
+
+
+
+{{ caso.archivo_declaracion_individual }}
+<br>
+<a href="{% url 'update_accidente' caso.pk %}">Actualizar</a>
+<hr>
+{{ caso.pk }}

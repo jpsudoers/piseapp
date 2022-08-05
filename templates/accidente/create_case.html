@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Accidente Escolar{% endblock title %}
+{% block fullcard %}
+{% block head %}
+<script src="{% static 'js/jquery.js' %}"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/js/standalone/selectize.min.js"
+    integrity="sha512-pF+DNRwavWMukUv/LyzDyDMn8U2uvqYQdJN0Zvilr6DDo/56xPDZdDoyPDYZRSL4aOKO/FGKXTpzDyQJ8je8Qw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+<link rel="stylesheet"
+    href="https://cdnjs.cloudflare.com/ajax/libs/selectize.js/0.13.3/css/selectize.bootstrap4.min.css"
+    integrity="sha512-MMojOrCQrqLg4Iarid2YMYyZ7pzjPeXKRvhW9nZqLo6kPBBTuvNET9DBVWptAo/Q20Fy11EIHM5ig4WlIrJfQw=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+{% endblock head %}
+<div class="card shadow-lg p-3 mb-5 bg-white rounded">
+    <div class="card-header">
+        <div class="row d-flex justify-content-around">
+            <div class="col-sm-6">
+               <h1 class="display-6">Accidente Escolar</h1>
+            </div>
+            <div class="col-sm-6 mt-2">
+                <a href="{% static 'pdf/dec.pdf' %}" class="btn btn-primary active btn-lg" download>
+                    Descargar Declaracion de Accidente Escolar
+                </a>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card shadow-lg p-3 mb-5 bg-white rounded">
+    <div class="card-body">
+
+        <form action="" method="POST" enctype="multipart/form-data">
+
+            {% csrf_token %}
+            <br />
+            {{form.as_p}}
+        
+            <button type="submit" class="btn btn-success">Guardar Caso</button>
+        </form>
+    </div>
+</div>
+
+
+<script>
+    $(function () {
+        $("#id_accidentado").selectize({
+            sortField: 'text',
+        });
+        // $("#id_tipo_connotacion_sexual").selectize({
+        //     sortField: 'text',
+        // });
+    });
+</script>
+
+{% endblock fullcard %}

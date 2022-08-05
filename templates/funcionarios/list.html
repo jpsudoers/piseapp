@@ -1,0 +1,80 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %} Funcionario {% endblock title %}
+
+{% block pagetitle %} Funcionarios {% endblock pagetitle %}
+{% block fullcard %}
+
+<div class="card">
+    <div class="card-header">
+        Funcionarios
+    </div>
+    <div class="card-body">
+        <table id="alumnos" class="table table-bordered table-hover">
+            <thead class="thead-light">
+                <tr>
+                    <th scope="col" style="width: 10%">ID</th>
+                    <th scope="col" style="width: 30%">Rut</th>
+                    <th scope="col" style="width: 30%">Nombre</th>
+                    <th scope="col" style="width: 30%">Apellidos</th>
+                    <th scope="col" style="width: 45%">Cargo</th>
+                    <th scope="col" style="width: 45%">Ir a Detalle</th>
+                </tr>
+            </thead>
+            <tbody>
+
+                {% for funcionario in list %}
+                <tr>
+                    <td>{{ funcionario.pk }}</td>
+                    <td>{{ funcionario.rut }}-{{ funcionario.dv }}</td>
+                    <td>{{ funcionario.nombre }}</td>
+                    <td>{{ funcionario.apellido_paterno }} {{ funcionario.apellido_materno }} </td>
+                    <td>{{ funcionario.cargo }}</td>
+                    <td><a href="{% url 'funcionario_detail' funcionario.pk %}">Información Funcionario</a></td>
+                </tr>
+                {% endfor %}
+            </tbody>
+
+        </table>
+
+    </div>
+</div>
+{% endblock fullcard %}
+
+{% block morejs %}
+<script>
+    $('#alumnos').DataTable({
+        "language": {
+            "sProcessing": "Procesando...",
+            "sLengthMenu": "Mostrar _MENU_ registros",
+            "sZeroRecords": "No se encontraron resultados",
+            "sEmptyTable": "Ningún dato disponible en esta tabla",
+            "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+            "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+            "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+            "sInfoPostFix": "",
+            "sSearch": "Buscar:",
+            "sUrl": "",
+            "sInfoThousands": ",",
+            "sLoadingRecords": "Cargando...",
+            "oPaginate": {
+                "sFirst": "Primero",
+                "sLast": "Último",
+                "sNext": "Siguiente",
+                "sPrevious": "Anterior"
+            },
+            "oAria": {
+                "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+            }
+        },
+        "paging": true,
+        "lengthChange": false,
+        "searching": true,
+        "ordering": true,
+        "info": true,
+        "autoWidth": true,
+        "responsive": true,
+    });
+</script>
+{% endblock morejs %}

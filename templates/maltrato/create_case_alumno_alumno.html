@@ -1,0 +1,37 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Maltrato{% endblock title %}
+{% block head %}
+<link rel="stylesheet" href="{% static 'lib/plugins/select2/css/select2.min.css' %}">
+<link rel="stylesheet" href="{% static 'lib/plugins/select2-bootstrap4-theme/select2-bootstrap4.min.css' %}">
+
+<script src="{% static 'lib/plugins/select2/js/select2.full.min.js' %}"></script>
+<script src="{% static 'lib/plugins/select2/js/i18n/es.js' %}"></script>
+
+{% endblock head %}
+{% block fullcard %}
+<div class="form">
+    <form action="" method="post">
+        {% csrf_token %}
+        {{form}}
+        <button type="submit">Enviar </button>
+    </form>
+
+
+</div>
+<script>
+    $(function () {
+        //Initialize Select2 Elements
+        $('#id_victima').select2({
+            language: "es",
+            theme: 'bootstrap4'
+        })
+
+        //Initialize Select2 Elements
+        $('#id_alumno_agresor').select2({
+            language: "es",
+            theme: 'bootstrap4'
+        })
+    })
+</script>
+{% endblock fullcard %}

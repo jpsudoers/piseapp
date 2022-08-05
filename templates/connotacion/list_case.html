@@ -1,0 +1,94 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Casos: Connotacion Sexual {% endblock title %}
+
+{% block pagetitle %} Casos de Connotacion Sexual {% endblock pagetitle %}
+{% block head %}
+<script src="{% static 'lib/plugins/Datatables/pdfmake.min.js' %}"></script>
+{% endblock head %}
+{% block fullcard %}
+  
+  <div class="card">
+    <div class="card-header">
+      Tabla de casos
+    </div>
+    <div class="card-body">
+      <table id="casos_con" class="table table-bordered table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th>#</th>
+            <th>Afectado</th>
+            <th>Fecha</th>
+            <th>Detalle</th>
+            <th>Estado</th>
+            <th>PDF</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for connotacion in casos_list %}
+          <tr>
+            <td>{{connotacion.pk}}</td>
+            <td>{{connotacion.victima}}</td>
+            <td>{{connotacion.fecha_creacion}}</td>
+            <td><a href="{% url 'connotacion_detail' connotacion.pk %}">{{ connotacion.detalle|truncatechars:"10" }}</a></td>
+            <td>{{connotacion.get_estado_display}}</td>
+            <td>
+              {% if connotacion.estado == 'nol' %}
+              Caso sin revisión
+            {% else %}
+              <a href="{% url 'reporte-connotacion' connotacion.pk %}">PDF</a>
+            {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <div>
+        <h2></h2>
+    </div>
+    
+{% endblock fullcard %}
+
+{% block morejs %}
+
+<script>
+  $('#casos_con').DataTable({
+    buttons: ['copy', 'excel', 'pdf'],
+    "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "responsive": true,
+  });
+
+</script>
+
+{% endblock morejs %}

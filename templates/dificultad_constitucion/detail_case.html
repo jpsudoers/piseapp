@@ -1,0 +1,122 @@
+{% extends 'base.html' %}
+{% block title %}Caso Dificultad en Constitución de consejo{% endblock title %}
+
+{% block content-header %}
+<div class="card-header">
+    <div class="card-tools">
+        <a href="#" class="btn btn-tool"></a>
+        <a href="" class="btn btn-tool">
+            <i class="fas fa-edit"></i>
+        </a>
+        <a href="" class="btn btn-tool">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+</div>
+{% endblock content-header %}
+
+{% block content %}
+
+<div class="row">
+    <div class="col-sm-4">
+        <div>
+            
+        </div>
+    </div>
+    <div class="col-sm-8">
+        <div>
+            <div class="form-group border-bottom row">
+                <label for="" class="col">
+                    Nombre Funcionario
+                </label>
+                <div class="col">
+                    {{caso.funcionario_afectado.nombre}} {{caso.funcionario_afectado.apellido_paterno}}
+                </div>
+            </div>
+
+            <div class="form-group border-bottom row">
+                <label for="" class="col">
+                    Fecha Nacimiento
+                </label>
+                <div class="col">
+                    {{caso.victima.alumno.fecha_nacimiento}}
+                </div>
+            </div>
+
+            <div class="form-group border-bottom row">
+                <label for="" class="col">
+                    Cargo
+                </label>
+                <div class="col">
+                    {{caso.funcionario_afectado.cargo}}
+                </div>
+            </div>
+
+            <div class="form-group border-bottom row">
+                <label for="" class="col">
+                    Domicilio Actual
+                </label>
+                <div class="col">
+                    {{caso.victima.alumno.domicilio_actual}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-sm-12">
+        <div>
+            <div class="form-group border-bottom row">
+                <label for="" class="col">
+                    Fecha del Caso
+                </label>
+                <div class="col">
+                    {{caso.fecha}}
+                </div>
+            </div>
+            <div class="form-group border-bottom row">
+                <label for="" class="col">
+                    Tipo de Dificultad: 
+                </label>
+                <div class="col">
+                    {{caso.get_tipo_consejos_display}}
+                </div>
+            </div>
+
+            <div class="form-group border-bottom row">
+                <label for="" class="col">
+                    Estado
+                </label>
+                <div class="col">
+                    {{caso.get_estado_display}}
+                </div>
+            </div>
+
+            <div class="form-group border-bottom row">
+                <label for="" class="col">
+                    Detalle de lo sucedido
+                </label>
+                <div class="col">
+                    {{caso.detalle}}
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<div class="caso-detail">
+
+    <div class="row text-center mt-5">
+        <div class="col-sm-6">
+            <a href="{% url 'list_dificultad' %}" class="btn btn-primary btn-lg" role="button" >
+                Volver a Todos los Casos
+            </a>
+        </div>
+        <div class="col-sm-6">
+            <a href="{% url 'update_status_dificultad' caso.pk %}" class="btn btn-primary btn-lg" role="button"">
+                Actualizar estado
+            </a>        
+        </div>
+    </div>
+
+</div>
+{% endblock content %}

@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% block title %}Actualizar Estado Caso  {% endblock title %}
+{% block content %}
+<form action="" method="POST">
+
+    {% csrf_token %}
+    <br/>
+    {{form.as_p}}
+    <table>
+    
+    </table>
+    <button type="submit">Actualizar</button>
+</form>
+{% endblock content %}

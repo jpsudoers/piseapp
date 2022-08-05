@@ -1,0 +1,276 @@
+{% extends 'base.html' %}
+{% block title %}Caso Discrminación{% endblock title %}
+
+{% block content-header %}
+<div class="card-header">
+    <div class="card-tools">
+        <a href="#" class="btn btn-tool"></a>
+        <a href="" class="btn btn-tool">
+            <i class="fas fa-edit"></i>
+        </a>
+        <a href="" class="btn btn-tool">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+</div>
+{% endblock content-header %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-6">
+        <div class="card card-primary">
+            <div class="card-header">
+                <div class="card-title">Dato del Alumno</div>
+            </div>
+            <div class="card-body">
+                <div class="form-group border-bottom row">
+                    <label for="nombre" class="col">
+                        Nombre
+                    </label>
+                    <div class="col">
+                        {{matricula.alumno.nombre}} {{matricula.alumno.apellido}}
+                    </div>
+                </div>
+                <div class="form-group border-bottom row ">
+                    <label for="fechanacimiento" class="col">
+                        Fecha nacimiento
+                    </label>
+                    <div class="col">
+                        {{matricula.alumno.fecha_nacimiento}}
+                    </div>
+                </div>
+
+                <div class="form-group border-bottom row ">
+                    <label for="fechanacimiento" class="col">
+                        Nombre Apoderado
+                    </label>
+                    <div class="col">
+                        {{matricula.alumno.nombre_apoderado}}
+                    </div>
+                </div>
+
+                <div class="form-group border-bottom row ">
+                    <label for="fechanacimiento" class="col">
+                        Domicilio Actual
+                    </label>
+                    <div class="col">
+                        {{matricula.alumno.docimilio_actual}}
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card card-success">
+            <div class="card-header">
+                <div class="card-title">Información Matricula</div>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="form-group border-bottom row ">
+                    <label for="nombre" class="col">
+                        Establecimiento:
+                    </label>
+                    <div class="col">
+                        {{matricula.establecimiento.nombre}}
+                    </div>
+                </div>
+
+
+
+                <div class="form-group border-bottom row">
+                    <label for="nombre" class="col">
+                        Nivel:
+                    </label>
+                    <div class="col">
+                        {{matricula.nivel}}
+                    </div>
+                </div>
+
+                <div class="form-group border-bottom row">
+                    <label for="nombre" class="col">
+                        Letra:
+                    </label>
+                    <div class="col">
+                        {{matricula.letra}}
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+<div class="row accidente-escolar">
+    <div class="col-sm-12">
+        <div class="card card-warning">
+            <div class="card-header">
+                <div class="card-title">Accidente Escolares</div>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover" id="accidentes">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Ir al detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for caso in matricula.accidenteescolar_set.all %}
+                        <tr>
+                            <td>{{caso.fecha_ingreso}}</td>
+                            <td>{{caso.get_estado_display}}</td>
+                            <td><a href="{% url 'detail_accidente' caso.pk %}">Detalle</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row maltrato">
+    <div class="col-sm-12">
+        <div class="card card-warning">
+            <div class="card-header">
+                <div class="card-title">Maltrato </div>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <table class="table table-bordered table-hover" id="accidentes">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Ir al detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for caso in matricula.maltrato_set.all %}
+                        <tr>
+                            <td>{{caso.fecha_creacion}}</td>
+                            <td>{{caso.get_estado_display}}</td>
+                            <td><a href="{% url 'maltrato_detail' caso.pk %}">Detalle</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="row discriminacion">
+    <div class="col-sm-12">
+        <div class="card card-warning">
+            <div class="card-header">
+                <div class="card-title">Discriminacion </div>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <h4>Victima</h4>
+                <br>
+                <table class="table table-bordered table-hover" id="accidentes">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Ir al detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for caso in matricula.victima.all %}
+                        <tr>
+                            <td>{{caso.fecha_creacion}}</td>
+                            <td>{{caso.get_estado_display}}</td>
+                            <td><a href="{% url 'discriminacion_detail' caso.pk %}">Detalle</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+            <div class="card-body">
+                <h4>Como Agresor</h4>
+                <br>
+                <table class="table table-bordered table-hover" id="accidentes">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Ir al detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for caso in matricula.agresor.all %}
+                        <tr>
+                            <td>{{caso.fecha_creacion}}</td>
+                            <td>{{caso.get_estado_display}}</td>
+                            <td><a href="{% url 'discriminacion_detail' caso.pk %}">Detalle</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+<div class="row connotacion-sexual">
+    <div class="col-sm-12">
+        <div class="card card-warning">
+            <div class="card-header">
+                <div class="card-title">Connotacion Sexual </div>
+                <div class="card-tools">
+                    <button type="button" class="btn btn-tool" data-card-widget="collapse" title="Collapse">
+                        <i class="fas fa-minus"></i>
+                    </button>
+                </div>
+            </div>
+            <div class="card-body">
+                <br>
+                <table class="table table-bordered table-hover" id="accidentes">
+                    <thead>
+                        <tr>
+                            <th>Fecha</th>
+                            <th>Estado</th>
+                            <th>Ir al detalle</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for caso in matricula.connotacionsexual_set.all %}
+                        <tr>
+                            <td>{{caso.fecha_creacion}}</td>
+                            <td>{{caso.get_estado_display}}</td>
+                            <td><a href="{% url 'connotacion_detail' caso.pk %}">Detalle</a></td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock content %}

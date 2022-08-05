@@ -1,0 +1,22 @@
+{% extends 'base.html' %}
+{% block title %}Cambiar Estado Caso Maltrato  {% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <form action="" method="POST">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group row">
+                <div for="{{ field.label }}" class="col-sm-2 col-form-label">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-sm-10">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </form>
+    </div>
+
+{% endblock content %}

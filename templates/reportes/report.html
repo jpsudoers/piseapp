@@ -1,0 +1,132 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block head %}
+<script src="https://cdn.jsdelivr.net/npm/chart.js@2.9.3/dist/Chart.min.js"></script>
+
+{% endblock head %}
+
+{% block fullcard %}
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="info-box bg-info">
+                    <span class="info-box-icon"><i class="fas fa-file"></i></span>
+                    <div class="info-box-content">
+                        <div class="info-box-text">Discriminaciones</div>
+                        <div class="info-box-number">Total: {{casos_discriminaciones.count}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="info-box bg-info">
+                    <span class="info-box-icon"><i class="fas fa-file"></i></span>
+                    <div class="info-box-content">
+                        <div class="info-box-text">Connotacion Sexual</div>
+                        <div class="info-box-number">Total: {{casos_connotacion.count}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="info-box bg-info">
+                    <span class="info-box-icon"><i class="fas fa-file"></i></span>
+                    <div class="info-box-content">
+                        <div class="info-box-text">Maltratos</div>
+                        <div class="info-box-number">Total: {{casos_maltrato.count}}</div>
+                    </div>
+                </div>
+            </div>
+            <div class="col-sm-3">
+                <div class="info-box bg-info">
+                    <span class="info-box-icon"><i class="fas fa-file"></i></span>
+                    <div class="info-box-content">
+                        <div class="info-box-text">Accidentes</div>
+                        <div class="info-box-number">Total: {{casos_accidentes.count}}</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-sm-3">
+                <div class="info-box bg-info">
+                    <span class="info-box-icon"><i class="fas fa-file"></i></span>
+                    <div class="info-box-content">
+                        <div class="info-box-text">Funcionarios Vuln</div>
+                        <div class="info-box-number"> Total : 0</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="col-sm-3">
+                <div class="info-box bg-info">
+                    <span class="info-box-icon"><i class="fas fa-file"></i></span>
+                    <div class="info-box-content">
+                        <div class="info-box-text">Dificultad Consejos</div>
+                        <div class="info-box-number"> Total : 0</div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        Gráfico Estadistico de Total de Casos
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-sm-12">
+                <canvas id="pie-chart"></canvas>
+                <button onclick="window.print()" class="btn btn-primary" type="button"><i class="fas fa-print"></i> Imprimir</button>
+            </div>
+            
+        </div>
+    </div>
+</div>
+<script>
+    var config = {
+        type: 'pie',
+        data: {
+            datasets: [{
+                data: [{{casos_discriminaciones.count}}, {{casos_connotacion.count}}, {{casos_maltrato.count}}, {{casos_accidentes.count}}],
+                backgroundColor: ['#0b7a75', '#7b2d26', '#d7c9aa',],
+                label: 'Casos',}],
+                labels: ['Discriminacion', ' Connotacion Sexual', 'Maltrato', 'Accidentes' ]
+            },
+            options: {
+                responsive: true
+            }
+        };
+        window.onload = function () {
+            var ctx = document.getElementById('pie-chart').getContext('2d');
+            window.myPie = new Chart(ctx, config);
+        };
+</script>
+{% endblock fullcard %}
+
+{{casos_discriminaciones.count}}
+{{casos_connotacion.count}}
+{{casos_maltrato.count}}
+{{casos_accidentes.count}}
+<h1>GET</h1>
+<form method="get">
+    <input type="date" name="fecha" id="">
+
+    <select name="tipo" id="">
+        <option value="discriminacion">Discriminacion</option>
+        <option value="maltrato">Maltrato</option>
+        <option value="accidente">Accidentes</option>
+        <option value="connotacion">Connotacion Sexual</option>
+    </select>
+
+    <select name="estado" id="">
+        <option value="nol">No leido</option>
+        <option value="enrev">En Revision</option>
+        <option value="fin">Finalizado</option>
+    </select>
+
+    <input type="submit" value="Enviar">
+</form>
+
+{{ fecha }} - {{ tipo }} - {{ estado }} 

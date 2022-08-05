@@ -1,0 +1,49 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Matriculas {% endblock title %}
+
+{% block pagetitle %} Alumnos {% endblock pagetitle %}
+{% block fullcard %}
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11">Cargar Nomina Alumnos</div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+    <div class="card-body">
+        {% block contenido %}  
+        <form method="post" enctype="multipart/form-data">  
+        {% csrf_token %}  
+        <label>Cargar Nomina de Alumnos:</label>
+        <div class="input-group mb-3">
+            <input class="form-control form-control-file" type="file" name="xlsfile">  
+            <div class="input-group-append">
+                <button class="btn btn-md btn-success" type="submit">Subir</button>  
+            </div>
+        </div>
+        </form>  
+        {% endblock %}  
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <div class="row">
+            <div class="col-md-11">Agregar Alumno</div>
+            <div class="col-md-1"></div>
+        </div>
+    </div>
+    <div class="card-body">
+<form action="" method="POST" enctype="multipart/form-data">
+    {% csrf_token %}
+    <br />
+    {{form.as_p}}
+    <table>
+    </table>
+    <button id="boton" type="submit" class="btn btn-success">Crear</button>
+</form>
+    </div>
+</div>
+{% endblock fullcard %}

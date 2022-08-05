@@ -1,0 +1,89 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Casos: Maltrato {% endblock title %}
+
+{% block pagetitle %} Casos de Discriminacion {% endblock pagetitle %}
+{% block fullcard %}
+  
+  <div class="card border shadow p-3 mb-5 bg-white rounded ">
+    <div class="card-header">
+      Tabla de casos
+    </div>
+    <div class="card-body">
+      <table id="casos_con" class="table table-bordered table-hover">
+        <thead class="thead-light">
+          <tr>
+            <th>#</th>
+            <th>Afectado</th>
+            <th>Fecha</th>
+            <th>Detalle</th>
+            <th>Estado</th>
+            <th>PDF</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for discriminacion in casos_list %}
+          <tr>
+            <td>{{discriminacion.pk}}</td>
+            <td>{{discriminacion.victima}}</td>
+            <td>{{discriminacion.fecha_creacion}}</td>
+            <td><a href="{% url 'discriminacion_detail' discriminacion.pk %}">{{ discriminacion.detalle|truncatechars:"10" }}</a></td>
+            <td>{{discriminacion.get_estado_display}}</td>
+            <td>
+              {% if discriminacion.estado == 'nol' %}
+                Revisar Caso
+              {% else %}
+                <a href="{% url 'reporte-discrim' discriminacion.pk %}">PDF</a>
+              {% endif %}
+            </td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+    <div>
+        <h2></h2>
+    </div>
+    
+{% endblock fullcard %}
+
+{% block morejs %}
+
+<script>
+  $('#casos_con').DataTable({
+    "language": {
+                    "sProcessing": "Procesando...",
+                    "sLengthMenu": "Mostrar _MENU_ registros",
+                    "sZeroRecords": "No se encontraron resultados",
+                    "sEmptyTable": "Ningún dato disponible en esta tabla",
+                    "sInfo": "Mostrando registros del _START_ al _END_ de un total de _TOTAL_ registros",
+                    "sInfoEmpty": "Mostrando registros del 0 al 0 de un total de 0 registros",
+                    "sInfoFiltered": "(filtrado de un total de _MAX_ registros)",
+                    "sInfoPostFix": "",
+                    "sSearch": "Buscar:",
+                    "sUrl": "",
+                    "sInfoThousands": ",",
+                    "sLoadingRecords": "Cargando...",
+                    "oPaginate": {
+                        "sFirst": "Primero",
+                        "sLast": "Último",
+                        "sNext": "Siguiente",
+                        "sPrevious": "Anterior"
+                    },
+                    "oAria": {
+                        "sSortAscending": ": Activar para ordenar la columna de manera ascendente",
+                        "sSortDescending": ": Activar para ordenar la columna de manera descendente"
+                    }
+                },
+                "paging": true,
+                "lengthChange": false,
+                "searching": true,
+                "ordering": true,
+                "info": true,
+                "autoWidth": true,
+                "responsive": true,
+  });
+</script>
+
+{% endblock morejs %}
