@@ -31,7 +31,6 @@
                             Nombre Afectado
                         </label>
                         <div class="col">
-                            {{caso.accidentado.alumno}}
                         </div>
                     </div>
 
@@ -40,7 +39,6 @@
                             Curso
                         </label>
                         <div class="col">
-                            {{caso.accidentado.curso}} {{caso.accidentado.nivel}}
                         </div>
                     </div>
 
@@ -49,7 +47,6 @@
                             Fecha Nacimiento
                         </label>
                         <div class="col">
-                            {{caso.accidentado.alumno.fecha_nacimiento}}
                         </div>
                     </div>
         
@@ -58,16 +55,13 @@
                             Apoderado
                         </label>
                         <div class="col">
-                            {{caso.accidentado.alumno.nombre_apoderado}}
                         </div>
                     </div>
         
                     <div class="form-group border-bottom row">
                         <label for="" class="col">
-                            Domicilio Actual
                         </label>
                         <div class="col">
-                            {{caso.accidentado.alumno.domicilio_actual}}
                         </div>
                     </div>
 
@@ -77,7 +71,6 @@
                             Fecha Ingreso del Caso
                         </label>
                         <div class="col">
-                            {{caso.fecha_ingreso}}
                         </div>
                     </div>
                     
@@ -86,7 +79,6 @@
                             Malestar Físico
                         </label>
                         <div class="col">
-                            {{caso.malestar_fisico}}
                         </div>
                     </div>
 
@@ -95,7 +87,6 @@
                             Nombre de Familiar de Contacto
                         </label>
                         <div class="col">
-                            {{caso.nombre_familiar_contacto}}
                         </div>
                     </div>
 
@@ -104,7 +95,6 @@
                             Instruccion Familiar
                         </label>
                         <div class="col">
-                            {{caso.instruccion_familiar}}
                         </div>
                     </div>
                     
@@ -113,7 +103,7 @@
                             Consecuencias Médicas
                         </label>
                         <div class="col">
-                            {{caso.consecuencias_medicas}}
+                            
                         </div>
                     </div>
 
@@ -122,7 +112,7 @@
                             Detalle del Relato
                         </label>
                         <div class="col">
-                            {{caso.detalle_relato}}
+                            
                         </div>
                     </div>
 
@@ -131,12 +121,7 @@
                             Declaracion de Accidente del alumno
                         </label>
                         <div class="col">
-                            {% if caso.archivo_declaracion_individual%}
-                                <a href="{{ caso.archivo_declaracion_individual.url }}">Ir</a>
-                            {% else %}
-                                No tiene cargado archivo declaracion individual, favor actualizar.
-                            {% endif %}
-                        </div>
+
                     </div>
                 </div>
             </div>

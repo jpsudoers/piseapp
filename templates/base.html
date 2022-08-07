@@ -80,17 +80,17 @@
                     -->
                     <div class="image">
                         {% if user.establecimiento.logo %}
-                        <img src="" width="160" height="160"
+                        <img src="{{user.establecimiento.logo}}" width="160" height="160"
                              class="img-circle elevation-2"
                              alt="User Image">
                         {% else %}
-                        <img src="https://www.w3schools.com/bootstrap5/img_avatar5.png" width="160" height="160" class="img-circle elevation-2" alt="User Image">
+                        <img src="" width="160" height="160" class="img-circle elevation-2" alt="User Image">
                         {% endif %}
                     </div>
                     
                     <div class="info">
                         <a href="" class="d-block">{{ user.nombre }} {{ user.apellido }}</a>
-                        <a href="{% url 'detail' %}" class="d-block">Ajustes</a>
+                        <a href="{% url 'detail' user.establecimiento.id %}" class="d-block">Ajustes</a>
                         <a href="{% url 'logout' %} class="d-block"">Salir</a>
                     </div>
                    

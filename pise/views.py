@@ -1051,47 +1051,27 @@ class FuncionarioEstablecimientoDetailView(DetailView):
     pass
 
 #region MC
-class EstablecimientoDetailView(DetailView):
+class EstablecimientoUsuarioDetailView(LoginRequiredMixin,DetailView):
     model = models.Establecimiento
+    context_object_name = 'detail'
+    template_name = 'ajustes/detail.html'    
+    pass
 
-    def detail(request):
-        data = model.user.value()
-        template = loader.get_template('ajustes/detail.html')
-        context = {
-            'data': data
-        }
-        return HttpResponse(template.render(context, request))
-class EstablecimientoUpdateView(UpdateView):
+
+
+
+class EstablecimientoUsuarioUpdateView(UpdateView):
     model = models.Establecimiento
-    def update(request):
-        data = model.user
-        template = loader.get_template('ajustes/updates.html')
-        context = {
-            'data': data,
-            }
-        return HttpResponse(template.render(context, request))
-
-
-"""
-class EstablecimientoUpdateView(UpdateView):
-    model = models.VulneracionDerechosFuncionarios
-    template_name = 'ajustes/update_establecimiento.html'
-    # fields = ['estado']
-    form_class = forms.EstablecimientoUpdateForm
+    template_name = 'ajustes/updates.html'
+    form_class = forms.EstablecimientoUsuarioUpdateForm
     
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
-        return super(EstablecimientoUpdateView, self).get(request, *args, **kwargs)
+        return super(EstablecimientoUsuarioUpdateView, self).get(request, *args, **kwargs)
 
     def get_success_url(self) -> str:
-        
         instance = self.get_object()
-        # print(instance.discriminacion_set.all().first().pk)
-        return reverse('ajustes',kwargs={'pk': instance.pk })
-        # super().get_success_url()
+        return reverse('details',kwargs={'pk': instance.pk })
 
-
-
-"""
 #endregion

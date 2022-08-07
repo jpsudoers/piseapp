@@ -1,0 +1,33 @@
+{% extends 'base.html' %}
+{% block title %}Edit Caso Connotacion  {% endblock title %}
+{% block content %}
+<div class="row">
+    <div class="col-sm-12">
+        <div class="form-group border-bottom row">
+            <label for="" class="col">
+                Actualizar Información de Establecimiento
+            </label>
+            <div class="col">
+                {{object.get_estado_display}}
+            </div>
+        </div>
+
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group row">
+                <div for="{{ field.label }}" class="col-sm-2 col-form-label">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-sm-10">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+            <button type="submit" class="btn btn-success">Actualizar</button>
+        </form>
+    </div>
+    </div>
+</div>
+
+{% endblock content %}

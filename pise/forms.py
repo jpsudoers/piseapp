@@ -320,14 +320,15 @@ class EstadoDificultadConsejoUpdateForm(forms.ModelForm):
             )
         }
 
-class EstablecimientoUpdateForm(forms.ModelForm):
+class EstablecimientoUsuarioUpdateForm(forms.ModelForm):
     class Meta:
         model = models.Establecimiento
-        fields = ('numero_telefonido','direccion', 'logo')
+        fields = ('nombre','numero_telefonido','direccion', 'logo')
         widgets = {
-            'estado': forms.Select(
-                attrs={'class': 'form-control',}
-            )
+            'nombre': forms.TextInput(attrs={'class': 'form-control',}),
+            'numero_telefonido': forms.NumberInput(attrs={'class': 'form-control',}),
+            'direccion': forms.TextInput(attrs={'class': 'form-control',}),
+            'logo': forms.FileInput(attrs={'class': 'form-control',})
         }
 
 class MatriculaEstablecimientoCreateForm(forms.ModelForm):

@@ -5,8 +5,8 @@ urlpatterns = [
     path('accounts/login/', views.UserLoginView.as_view(template_name='login.html'), name='login'),
     path('logout/', views.logout_view, name='logout'),
     #Establecimiento
-    path('ajustes/', views.EstablecimientoDetailView.as_view(),name='detail'),
-    #path('ajustes/update',views.EstablecimientoUpdateView.as_view(),name='update'),
+    path('ajustes/<int:pk>', views.EstablecimientoUsuarioDetailView.as_view(),name='detail'),
+    path('ajustes/update/<int:pk>',views.EstablecimientoUsuarioUpdateView.as_view(),name='update'),
     #Alumnos
     path('matriculas/', views.MatriculaEstablecimientoListView.as_view(), name='matriculas'),
     path('matricula/<int:pk>', views.MatriculaEstablecimientoDetailView.as_view(), name='matricula_detail'),

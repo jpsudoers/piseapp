@@ -1,0 +1,119 @@
+{% extends 'base.html' %}
+{% block title %}Establecimeinto{% endblock title %}
+
+{% block content-header %}
+<div class="card-header">
+    <div class="card-tools">
+        <a href="#" class="btn btn-tool"></a>
+        <a href="{% url 'update' user.establecimiento.id %}" class="btn btn-tool">
+            <i class="fas fa-edit"></i>
+        </a>
+        <a href="" class="btn btn-tool">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+</div>
+{% endblock content-header %}
+{% block content %}
+<div class="row ">
+    <div class="col-sm-6">
+        <div class="card card-primary ">
+            <div class="card-header">
+                <div class="card-title">Dato del Establecimiento</div>
+            </div>
+            <div class="card-body">
+                <div class="form-group border-bottom row">
+                    <label for="nombre" class="col">
+                        Nombre
+                    </label>
+                    <div class="col">
+                        {{detail.nombre}}
+                    </div>
+                </div>
+                <div class="form-group border-bottom row ">
+                    <label for="rut" class="col">
+                        RBD
+                    </label>
+                    <div class="col">
+                        {{detail.rbd}}
+                    </div>
+                </div>
+                <div class="form-group border-bottom row ">
+                    <label for="fechanacimiento" class="col">
+                        Telefono
+                    </label>
+                    <div class="col">
+                        {{detail.numero_telefonido}}
+                    </div>
+                </div>
+
+                <div class="form-group border-bottom row ">
+                    <label for="fechanacimiento" class="col">
+                        Domicilio
+                    </label>
+                    <div class="col">
+                        {{detail.direccion}}
+                    </div>
+                </div>
+
+
+
+
+            </div>
+
+
+        </div>
+    </div>
+
+    <div class="col-sm-6">
+        <div class="card card-success">
+            <div class="card-header">
+                <div class="card-title">Información Usuario</div>
+
+            </div>
+
+            <div class="card-body">
+
+                <div class="form-group border-bottom row ">
+                    <label for="nombre" class="col">
+                        nombre
+                    </label>
+                    <div class="col">
+                        {{ user.nombre }} {{ user.apellido }}
+                    </div>
+                </div>
+
+
+
+                <div class="form-group border-bottom row">
+                    <label for="nombre" class="col">
+                        Correo
+                    </label>
+                    <div class="col">
+                        {{user.email}}
+                    </div>
+                </div>
+
+                <div class="form-group border-bottom row">
+                    <label for="nombre" class="col">
+                        Contraseña
+                    </label>
+                    <div class="col">
+                        <input type="password" value="{{user.password}}" disabled>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </div>
+</div>
+
+</div>
+
+</div>
+
+
+</div>
+
+
+{% endblock content %}
