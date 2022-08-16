@@ -78,14 +78,14 @@ WSGI_APPLICATION = 'config.wsgi.application'
 
 # Database
 # https://docs.djangoproject.com/en/3.2/ref/settings/#databases
-
-#DATABASES = {
-#    'default': {
-#        'ENGINE': 'django.db.backends.sqlite3',
-#        'NAME': BASE_DIR / 'db.sqlite3',
-#   }
-#}
-
+'''
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.sqlite3',
+        'NAME': BASE_DIR / 'db.sqlite3',
+   }
+}
+'''
 DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
@@ -158,7 +158,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 AUTH_USER_MODEL = 'accounts.CustomUser'
 
 MEDIA_URL = '/media/' # new
-MEDIA_ROOT = str(BASE_DIR.joinpath('media'))
+MEDIA_ROOT = str(BASE_DIR.joinpath('media')) # new
 
 LOGIN_REDIRECT_URL = 'index'
 LOGIN_URL = 'login'
@@ -174,9 +174,12 @@ EMAIL_HOST_PASSWORD = ""
 
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-AWS_S3_ACCESS_KEY_ID = 'AKIA4DHUJCCZ6M6L4S47'
-AWS_S3_SECRET_ACCESS_KEY = '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'
-AWS_STORAGE_BUCKET_NAME = 'pise-app'
+AWS_S3_ACCESS_KEY_ID = 'AKIASI7O64UGL5YFCNVM' #'AKIA4DHUJCCZ6M6L4S47' -> Configuracion Anterior
+AWS_S3_SECRET_ACCESS_KEY = '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' #'TkYFOHj3OzAsvvY5TMCNXXJboH+7EWmmLs+Wvrer' -> Configuracion Anterior
+AWS_STORAGE_BUCKET_NAME = 'PiseAPP'#'pise-app'
+AWS_S3_ENDPOINT_URL = 'https://elasticbeanstalk-us-east-1-156730582284.s3.amazonaws.com/'
 
+
+AWS_S3_REGION_NAME = 'us-east-1'
 AWS_S3_FILE_OVERWRITE = False
 AWS_DEFAULT_ACL = None

@@ -1,5 +1,8 @@
 from django.urls import path
 from . import views
+from django.conf import settings
+from django.conf.urls.static import static
+
 urlpatterns = [
     path('', views.home_view, name='index'),
     path('accounts/login/', views.UserLoginView.as_view(template_name='login.html'), name='login'),
@@ -83,4 +86,4 @@ urlpatterns = [
     #path('matriculas/Agregar', views.MatriculaCreateView.as_view(), name='add_alumn'),
 
 
-]
+] 

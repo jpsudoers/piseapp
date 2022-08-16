@@ -14,16 +14,25 @@
     </div>
     <div class="card-body">
         {% block contenido %}  
-        <form method="post" enctype="multipart/form-data">  
-        {% csrf_token %}  
-        <label>Cargar Nomina de Alumnos:</label>
-        <div class="input-group mb-3">
-            <input class="form-control form-control-file" type="file" name="xlsfile">  
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <input class="form-control form-control-file"  type="file" name="importData">
+            <p>Por favor elegir formato del archivo.</p>
+            <select name="file-format" class="form-control my-3">
+                <option selected>Formato</option>
+                <option>XLS</option>
+                <option>XLSX</option>
+                <option>CSV</option>
+              </select>
+            <button class="btn btn-success" type="submit">Cargar</button>
+          </form>
+        <!--div class="input-group mb-3">
+            <input class="form-control form-control-file" type="file" name="importData">  
             <div class="input-group-append">
                 <button class="btn btn-md btn-success" type="submit">Subir</button>  
             </div>
         </div>
-        </form>  
+        </form-->  
         {% endblock %}  
     </div>
 </div>
@@ -36,14 +45,6 @@
         </div>
     </div>
     <div class="card-body">
-<form action="" method="POST" enctype="multipart/form-data">
-    {% csrf_token %}
-    <br />
-    {{form.as_p}}
-    <table>
-    </table>
-    <button id="boton" type="submit" class="btn btn-success">Crear</button>
-</form>
     </div>
 </div>
 {% endblock fullcard %}

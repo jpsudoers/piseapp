@@ -5,7 +5,7 @@ from django.db.models.fields.related import ManyToManyField
 from django.urls import reverse 
 
 # Create your models here.
-
+'''
 class Alumno(models.Model):
     rut = models.IntegerField()
     dv = models.CharField(max_length=1, blank=True, null=True)
@@ -23,24 +23,41 @@ class Alumno(models.Model):
 
     def __str__(self) -> str:
         return f'{self.nombre} {self.apellido}'
+'''
+#region utils
 
-
-
+#endregion
 class Establecimiento(models.Model):
     usuario = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     nombre = models.CharField(max_length=255, blank=True, null=True)
     rbd = models.CharField(max_length=6, blank=True, null=True)
-    numero_telefonido = models.IntegerField(blank=True, null=True)
+    telefono = models.IntegerField(blank=True, null=True)
     direccion = models.CharField(max_length=255, blank=True, null=True)
     logo = models.ImageField(upload_to='logo_colegio/', blank=True, null=True)
+    reglamento_interno = models.FileField(upload_to='reglamento/', blank=True, null=True)
     
     def __str__(self) -> str:
         return f'{self.rbd} {self.nombre}'
 
-
+    
+   
 
 class Matricula(models.Model):
-    alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
+    #alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
+    rut = models.IntegerField()
+    dv = models.CharField(max_length=1, blank=True, null=True)
+    nombres = models.CharField(max_length=255, blank=True, null=True)
+    apellido_paterno = models.CharField(max_length=255, blank=True, null=True)
+    apellido_materno = models.CharField(max_length=255, blank=True, null=True)
+    nombre_apoderado = models.CharField(max_length=255, blank=True, null=True)
+    domicilio_actual = models.CharField(max_length=255, blank=True, null=True)
+    Comuna_residencia = models.CharField(max_length=255, blank=True, null=True)
+    email = models.CharField(max_length=255, blank=True, null=True)
+    telefono = models.CharField(max_length=255, blank=True, null=True)
+    celular = models.CharField(max_length=255, blank=True, null=True)
+    fecha_nacimiento = models.DateField(auto_now=False, blank=True, null=True)
+    codigo_etnia = models.IntegerField(blank=True, null=True)
+    #Matricula comienza aqui
     establecimiento = models.ForeignKey(Establecimiento, on_delete=models.CASCADE)
     nivel = models.CharField(max_length=255, blank=True, null=True)
     letra = models.CharField(max_length=6, blank=True, null=True)
@@ -51,10 +68,11 @@ class Matricula(models.Model):
     esta_activo = models.BooleanField()
 
     def __str__(self) -> str:
-        return f'{self.alumno} {self.nivel}'
+        return f'{self.nombres} {self.apellido_paterno} {self.apellido_materno} {self.nivel}'
     
     def get_absolute_url(self):
         return reverse('matricula_detail', args=[str(self.id)])
+
 
 
 class FuncionarioEstablecimiento(models.Model):
@@ -75,7 +93,7 @@ class FuncionarioEstablecimiento(models.Model):
         verbose_name_plural = "funcionarios"
 
     def __str__(self) -> str:
-        return f'{self.nombre} {self.apellido_materno}'
+        return f'{self.nombre} {self.apellido_paterno} {self.apellido_materno}'
     
 
     def get_absolute_url(self):

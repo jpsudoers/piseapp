@@ -323,37 +323,21 @@ class EstadoDificultadConsejoUpdateForm(forms.ModelForm):
 class EstablecimientoUsuarioUpdateForm(forms.ModelForm):
     class Meta:
         model = models.Establecimiento
-        fields = ('nombre','numero_telefonido','direccion', 'logo')
+        fields = ('nombre','telefono','direccion', 'logo','reglamento_interno')
         widgets = {
             'nombre': forms.TextInput(attrs={'class': 'form-control',}),
-            'numero_telefonido': forms.NumberInput(attrs={'class': 'form-control',}),
+            'telefono': forms.NumberInput(attrs={'class': 'form-control',}),
             'direccion': forms.TextInput(attrs={'class': 'form-control',}),
-            'logo': forms.FileInput(attrs={'class': 'form-control',})
+            'reglamento_interno': forms.FileInput(attrs={'class': 'form-control',})
         }
-
+'''
 class MatriculaEstablecimientoCreateForm(forms.ModelForm):
     class Meta:
         model = models.Matricula
-        exclude = ['año']
-        widgets = {
-            'alumno': forms.Select(attrs={'class': 'form-control',}),
-            'establecimiento': forms.Select(attrs={'class': 'form-control',}),
-            'nivel': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descripcion Grado', 'required': True,}),
-            'letra': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Letra Curso', 'required': True}),
-            'fecha_incorporacion': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
-            'fecha_retiro': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
-            'esta_activo': forms.CheckboxInput(attrs={'class': 'form-check-input ml-1'}),
-        }
-class ImportForm(forms.Form):
-    import_file = forms.FileField(allow_empty_file=False,validators=[FileExtensionValidator(allowed_extensions=['csv', 'xls', 'xlsx'])], label="")
-
-class MatriculaAlumnoCreateForm(forms.ModelForm):
-    class Meta:
-        model = models.Alumno
-        exclude = ['año']
+        exclude = ['año','establecimiento']
         widgets = {
             'rut': forms.TextInput(attrs={'class': 'form-control',}),
-            'dv': forms.TextInput(attrs={'class': 'form-control',}),
+            'dv': forms.TextInput(attrs={'class': 'col col-md-1',}),
             'nombres': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres', 'required': True,}),
             'apellido_paterno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido Paterno', 'required': True}),
             'apellido_materno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido Materno', 'required': True}),
@@ -364,5 +348,15 @@ class MatriculaAlumnoCreateForm(forms.ModelForm):
             'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefono', 'required': False}),
             'celular': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Celular', 'required': False}),
             'fecha_nacimiento': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
+            'codigo_etnia': forms.NumberInput(attrs={'class':'form-control','type':'number'}),
+            'esta_activo': forms.CheckboxInput(attrs={'class': 'form-check-input ml-1'}),
+            #matricula
+            'nivel': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descripcion Grado', 'required': True,}),
+            'letra': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Letra Curso', 'required': True}),
+            'fecha_incorporacion': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
+            'fecha_retiro': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
             'esta_activo': forms.CheckboxInput(attrs={'class': 'form-check-input ml-1'}),
         }
+'''
+class MatriculaEstablecimientoCreateForm(forms.Form):
+    import_file = forms.FileField(allow_empty_file=False,validators=[FileExtensionValidator(allowed_extensions=['csv', 'xls', 'xlsx'])], label="")

@@ -1,11 +1,11 @@
 from django.contrib.auth.models import User
 from import_export import resources, fields
 from import_export.widgets import ForeignKeyWidget, ManyToManyWidget,DateWidget
-from pise.models import Alumno, Establecimiento, Matricula
+from pise import models
+from pise.models import Matricula
 
-class MatriculaEstablecimientoResource(resources.ModelResource):
-    alumno = fields.Field(column_name='alumno', attribute='alumno', widget=ForeignKeyWidget(Alumno, field='alumno'))
-    establecimiento = fields.Field(column_name='establecimiento', attribute='establecimiento', widget=ForeignKeyWidget(Establecimiento, field='name'))
+class MatriculaResource(resources.ModelResource):
     class Meta:
-        model = Matricula
-        fields =('alumno','establecimiento','nivel','letra','fecha_incorporacion','fecha_retiro')
+        model = models.Matricula
+        exclude = ('nombre_apoderado','establecimiento','esta_activo')
+        #fields = ('rut','dv','nombres','apellido_paterno','apellido_materno','domicilio_actual','Comuna_residencia','email','telefono','celular','fecha_nacimiento','codigo_etnia','nivel','letra','año','fecha_incorporacion','fecha_retiro')

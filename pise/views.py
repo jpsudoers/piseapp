@@ -8,8 +8,9 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from django.template import loader #MC
-from .forms import ImportForm #MC
+from tablib import Dataset #MC
+from .resources import MatriculaResource
+
 
 
 
@@ -125,16 +126,37 @@ class MatriculaEstablecimientoCreateView(LoginRequiredMixin,CreateView):
     model = models.Matricula
     template_name = 'matriculas/create_case.html'
     context_object_name = 'matricula'
-
+    
     def get(self, request, *args, **kwargs):
-        context = {'form': forms.MatriculaEstablecimientoCreateForm()}
-        return render(request, 'matriculas/create_case.html', context)
+        return render(request, 'matriculas/create_case.html')
 
-class ImportAlumnos(View):
+    def import_data(request):
+        if request.method == 'POST':
+            matricula_resource = MatriculaResource()
+            dataset = Dataset()
+            new_matricula = request.FILES['importData']
+            imported_data = dataset.load(new_matricula.read().decode('utf-8'),format='xls')
+            result = MatriculaResource.import_data(dataset, dry_run=True)                                                                 
+        return render(request, 'matriculas/list_case.html')
 
-    def get(self,request):
-        form = ImportForm()
-        return render(request,'matriculas/create_case.html',{'form':form})
+'''
+            if file_format == 'XLS':
+                file_format = request.POST['file-format']
+                imported_data = dataset.load(new_matricula.read().decode('utf-8'),format='xls')
+                result = MatriculaResource.import_data(dataset, dry_run=True)                                                                 
+            elif file_format == 'XLSX':
+                imported_data = dataset.load(new_matricula.read().decode('utf-8'),format='xlsx')
+                # Testing data import
+                result = MatriculaResource.import_data(dataset, dry_run=True) 
+            elif file_format == 'CSV':
+                imported_data = dataset.load(new_matricula.read().decode('utf-8'),format='csv')
+                # Testing data import
+                result = MatriculaResource.import_data(dataset, dry_run=True) 
+            if not result.has_errors():
+                matricula_resource.import_data(dataset, dry_run=False)  # Actually import now
+'''
+    
+    
 
 class DiscriminacionListView(LoginRequiredMixin,ListView):
     model = models.Discriminacion
@@ -1072,6 +1094,6 @@ class EstablecimientoUsuarioUpdateView(UpdateView):
 
     def get_success_url(self) -> str:
         instance = self.get_object()
-        return reverse('details',kwargs={'pk': instance.pk })
+        return reverse('detail',kwargs={'pk': instance.pk })
 
 #endregion
