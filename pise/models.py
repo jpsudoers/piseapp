@@ -43,9 +43,16 @@ class Establecimiento(models.Model):
    
 
 class Matricula(models.Model):
+    FEMENINO = 'F'
+    MASCULINO = 'M'
+    STATE_CHOICES = [
+        (FEMENINO, 'Femenino'),
+        (MASCULINO, 'Masculino'),
+    ]
     #alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
     rut = models.IntegerField()
     dv = models.CharField(max_length=1, blank=True, null=True)
+    genero = models.CharField(max_length=1, choices=STATE_CHOICES, null=True)
     nombres = models.CharField(max_length=255, blank=True, null=True)
     apellido_paterno = models.CharField(max_length=255, blank=True, null=True)
     apellido_materno = models.CharField(max_length=255, blank=True, null=True)

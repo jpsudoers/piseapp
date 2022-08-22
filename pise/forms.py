@@ -1,4 +1,5 @@
 from dataclasses import fields
+from faulthandler import disable
 from pyexpat import model
 from django import forms
 from django.forms import widgets
@@ -328,20 +329,21 @@ class EstablecimientoUsuarioUpdateForm(forms.ModelForm):
             'nombre': forms.TextInput(attrs={'class': 'form-control',}),
             'telefono': forms.NumberInput(attrs={'class': 'form-control',}),
             'direccion': forms.TextInput(attrs={'class': 'form-control',}),
+            'logo': forms.FileInput(attrs={'class': 'form-control',}),
             'reglamento_interno': forms.FileInput(attrs={'class': 'form-control',})
         }
-'''
+
 class MatriculaEstablecimientoCreateForm(forms.ModelForm):
     class Meta:
         model = models.Matricula
-        exclude = ['año','establecimiento']
+        exclude = ['año','establecimiento','nombre_apoderado','esta_activo']
         widgets = {
             'rut': forms.TextInput(attrs={'class': 'form-control',}),
             'dv': forms.TextInput(attrs={'class': 'col col-md-1',}),
+            'genero': forms.TextInput(attrs={'class': 'col col-md-1',}),
             'nombres': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombres', 'required': True,}),
             'apellido_paterno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido Paterno', 'required': True}),
             'apellido_materno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido Materno', 'required': True}),
-            'nombre_apoderado': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Nombre Apoderado', 'required': True}),
             'domicilio_actual': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Domicilio', 'required': True}),
             'Comuna_residencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Comuna', 'required': True}),
             'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail', 'required': True}),
@@ -349,14 +351,25 @@ class MatriculaEstablecimientoCreateForm(forms.ModelForm):
             'celular': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Celular', 'required': False}),
             'fecha_nacimiento': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
             'codigo_etnia': forms.NumberInput(attrs={'class':'form-control','type':'number'}),
-            'esta_activo': forms.CheckboxInput(attrs={'class': 'form-check-input ml-1'}),
             #matricula
             'nivel': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descripcion Grado', 'required': True,}),
             'letra': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Letra Curso', 'required': True}),
             'fecha_incorporacion': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
             'fecha_retiro': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
-            'esta_activo': forms.CheckboxInput(attrs={'class': 'form-check-input ml-1'}),
         }
-'''
-class MatriculaEstablecimientoCreateForm(forms.Form):
-    import_file = forms.FileField(allow_empty_file=False,validators=[FileExtensionValidator(allowed_extensions=['csv', 'xls', 'xlsx'])], label="")
+class MatriculaEstablecimientoEditForm(forms.ModelForm):
+    class Meta:
+        model = models.Matricula
+        exclude = ['año','establecimiento','rut','dv','nombres','apellido_paterno','apellido_materno','codigo_etnia','fecha_nacimiento','fecha_incorporacion','fecha_retiro']
+        widgets = {
+            'genero': forms.Select(attrs={'class': 'form-control'}),
+            'nombre_apoderado': forms.TextInput(attrs={'class': 'form-control','placeholder': 'Nombre Apoderado', 'required': True}),
+            'domicilio_actual': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Domicilio', 'required': True}),
+            'Comuna_residencia': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Comuna', 'required': True}),
+            'email': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail', 'required': True}),
+            'telefono': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Telefono', 'required': False}),
+            'celular': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Celular', 'required': False}),
+            #matricula
+            'nivel': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descripcion Grado', 'required': True,}),
+            'letra': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Letra Curso', 'required': True})
+        }

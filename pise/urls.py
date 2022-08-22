@@ -13,7 +13,8 @@ urlpatterns = [
     #Alumnos
     path('matriculas/', views.MatriculaEstablecimientoListView.as_view(), name='matriculas'),
     path('matricula/<int:pk>', views.MatriculaEstablecimientoDetailView.as_view(), name='matricula_detail'),
-    path('matriculas/crear', views.MatriculaEstablecimientoCreateView.as_view(), name='matriculas_create'),
+    path('matricula/edit/<int:pk>',views.MatriculaEstablecimientoUpdateView.as_view(), name='matricula_edit' ),
+    path('matriculas/crear', views.Import_csv, name='matriculas_create'),
     #Funcionarios
     path('funcionarios/', views.FuncionarioEstablecimientoListView.as_view(), name='funcionarios'),
     path('funcionario/<int:pk>', views.FuncionarioEstablecimientoDetailView.as_view(), name='funcionario_detail'),

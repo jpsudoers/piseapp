@@ -14,25 +14,35 @@
             <!--div class="col-md-1"><a href="" class="btn btn-sm btn-secondary" type="button"><i class="fas fa-plus"></i> Agregar</a></div>
         </div-->
     </div>
+    {% if mensaje %}
+    <div class="alert alert-primary text-center" role="alert">
+        {{mensaje}}
+    </div>
+    {% endif %}
     <div class="card-body">
         <table id="alumnos" class="table table-bordered table-hover">
             <thead class="thead-light">
                 <tr>
-                    <th scope="col" style="width: 10%">ID</th>
-                    <th scope="col" style="width: 30%">Rut</th>
+                    <th scope="col" style="width: 5%">Estado</th>
+                    <th scope="col" style="width: 10%">Rut</th>
                     <th scope="col" style="width: 30%">Nombre</th>
                     <th scope="col" style="width: 30%">Apellidos</th>
-                    <th scope="col" style="width: 45%">Curso</th>
+                    <th scope="col" style="width: 30%">Curso</th>
                     <th scope="col" style="width: 45%">Ir a Detalle</th>
                 </tr>
             </thead>
             <tbody>
                 {% for matricula in casos_list %}
                 <tr>
-                    <td>{{ matricula.pk }}</td>
-                    <td>{{ matricula.alumno.rut }}-{{ matricula.alumno.dv }}</td>
-                    <td>{{ matricula.alumno.nombre }}</td>
-                    <td>{{ matricula.alumno.apellido }}</td>
+                    <td>
+                    {% if matricula.esta_activo == True %}
+                        <span class="badge bg-success">Activo</span>
+                    {% else %}
+                        <span class="badge bg-secondary">Inactivo</span>
+                    {% endif%}</td>
+                    <td>{{ matricula.rut }}-{{ matricula.dv }}</td>
+                    <td>{{ matricula.nombres }}</td>
+                    <td>{{ matricula.apellido_paterno }} {{ matricula.apellido_materno }}</td>
                     <td>{{ matricula.nivel }}</td>
                     <td><a href="{% url 'matricula_detail' matricula.pk %}">Información del alumno</a></td>
                 </tr>

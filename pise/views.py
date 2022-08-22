@@ -1,4 +1,6 @@
+from multiprocessing import context
 from pyexpat import model
+from urllib.request import Request
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
 from django.views.generic import ListView, DetailView, UpdateView, TemplateView, View
@@ -8,14 +10,13 @@ from django.contrib.auth.views import LoginView
 from django.contrib.auth import logout
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.decorators import login_required
-from tablib import Dataset #MC
-from .resources import MatriculaResource
-
-
-
-
-
+from django.core.files.storage import FileSystemStorage
+from django.conf import settings
 from . import models, forms
+import os
+import pandas as pd
+import numpy as np
+import datetime as dt
 
 # Create your views here.
 class UserLoginView(LoginView):
@@ -122,41 +123,63 @@ class MatriculaEstablecimientoDetailView(LoginRequiredMixin, DetailView):
     context_object_name = 'matricula'
     template_name = 'matriculas/detail_case.html'
 
-class MatriculaEstablecimientoCreateView(LoginRequiredMixin,CreateView):
+class MatriculaEstablecimientoUpdateView(LoginRequiredMixin,UpdateView):
     model = models.Matricula
-    template_name = 'matriculas/create_case.html'
-    context_object_name = 'matricula'
+    template_name = 'matriculas/update_case.html'
+    form_class = forms.MatriculaEstablecimientoEditForm
     
     def get(self, request, *args, **kwargs):
-        return render(request, 'matriculas/create_case.html')
+        self.object = self.get_object()
+        return super(MatriculaEstablecimientoUpdateView, self).get(request, *args, **kwargs)
 
-    def import_data(request):
-        if request.method == 'POST':
-            matricula_resource = MatriculaResource()
-            dataset = Dataset()
-            new_matricula = request.FILES['importData']
-            imported_data = dataset.load(new_matricula.read().decode('utf-8'),format='xls')
-            result = MatriculaResource.import_data(dataset, dry_run=True)                                                                 
-        return render(request, 'matriculas/list_case.html')
+    def get_success_url(self) -> str:
+        instance = self.get_object()
+        return reverse('matricula_edit',kwargs={'pk': instance.pk })
 
-'''
-            if file_format == 'XLS':
-                file_format = request.POST['file-format']
-                imported_data = dataset.load(new_matricula.read().decode('utf-8'),format='xls')
-                result = MatriculaResource.import_data(dataset, dry_run=True)                                                                 
-            elif file_format == 'XLSX':
-                imported_data = dataset.load(new_matricula.read().decode('utf-8'),format='xlsx')
-                # Testing data import
-                result = MatriculaResource.import_data(dataset, dry_run=True) 
-            elif file_format == 'CSV':
-                imported_data = dataset.load(new_matricula.read().decode('utf-8'),format='csv')
-                # Testing data import
-                result = MatriculaResource.import_data(dataset, dry_run=True) 
-            if not result.has_errors():
-                matricula_resource.import_data(dataset, dry_run=False)  # Actually import now
-'''
-    
-    
+def Import_csv(request):
+    try:
+        if request.method == 'POST' and request.FILES['importData']:
+            alumnos = []
+            myfile = request.FILES['importData']        
+            fs = FileSystemStorage()
+            filename = fs.save(myfile.name, myfile)
+            excel_file = os.path.join(settings.MEDIA_ROOT,filename) 
+            read_file = pd.read_excel (excel_file)
+            dtframe = pd.DataFrame(read_file)
+            dtframe.fillna('',inplace=True)
+            dtframe['Telefono'] = dtframe['Telefono'].astype(str).replace('\.0', '', regex=True)
+            dtframe['Celular'] = dtframe['Celular'].astype(str).replace('\.0', '', regex=True)
+            dbframe = dtframe
+            for dbframe in dbframe.itertuples():
+                
+                if str(request.user.establecimiento.rbd) == str(dbframe.RBD):
+                    establecimiento = request.user.establecimiento
+                else:
+                     mensaje = '%s no corresponde a esta institucion, verifique su RBD'%filename  
+                if dbframe._21 >= dbframe._22:
+                    activo=1
+                else:
+                    activo=0
+
+                obj = models.Matricula.objects.create(rut=dbframe.Run,dv=dbframe._8, nombres=dbframe.Nombres, apellido_paterno=dbframe._11,  apellido_materno=dbframe._12,
+                                            domicilio_actual=dbframe.Dirección, Comuna_residencia=dbframe._14, email=dbframe.Email, telefono=dbframe.Telefono, celular=dbframe.Celular,
+                                            fecha_nacimiento=dbframe._19, codigo_etnia=dbframe._20, nivel=dbframe._5, letra=dbframe._6, año=dbframe.Año,fecha_incorporacion=dbframe._21,
+                                            fecha_retiro=dbframe._22, esta_activo=activo, establecimiento=establecimiento, genero=dbframe.Genero)
+                alumnos.append(obj)
+            os.remove(excel_file)
+            return render(request, 'matriculas/create_case.html', {'alumnos': alumnos}) 
+        else:
+            os.remove(excel_file)
+        if 'Guardar' in request.POST:
+            for obj in alumnos:
+                obj.save()
+            mensaje = 'Se ha cargado exitosamente %s'%filename       
+        return render(request, 'matriculas/list_case.html', {'mensaje': mensaje})    
+    except Exception as identifier:            
+        mensaje = identifier
+    return render(request, 'matriculas/create_case.html')    
+
+
 
 class DiscriminacionListView(LoginRequiredMixin,ListView):
     model = models.Discriminacion
@@ -1090,10 +1113,15 @@ class EstablecimientoUsuarioUpdateView(UpdateView):
 
     def get(self, request, *args, **kwargs):
         self.object = self.get_object()
+        if request.method == 'POST':
+            form = forms.EstablecimientoUsuarioUpdateForm(request.POST, request.FILES)
+            if form.is_valid():
+                form.save()
         return super(EstablecimientoUsuarioUpdateView, self).get(request, *args, **kwargs)
 
     def get_success_url(self) -> str:
         instance = self.get_object()
         return reverse('detail',kwargs={'pk': instance.pk })
 
+           
 #endregion

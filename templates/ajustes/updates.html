@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% block title %}Edit Caso Connotacion  {% endblock title %}
+{% block title %}Edit Establecimiento  {% endblock title %}
 {% block content %}
 <div class="row">
     <div class="col-sm-12">
@@ -12,7 +12,7 @@
             </div>
         </div>
 
-        <form action="" method="POST" enctype="multipart/form-data">
+        <form action="/" method="POST" enctype="multipart/form-data">
             {% csrf_token %}
             {% for field in form %}
             <div class="form-group row">
@@ -24,6 +24,7 @@
                 </div>
             </div>
             {% endfor %}
+            
             <button type="submit" class="btn btn-success">Actualizar</button>
         </form>
     </div>
