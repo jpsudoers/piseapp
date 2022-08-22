@@ -1,16 +1,11 @@
 from django.contrib import admin
 from import_export.admin import ImportExportModelAdmin
-from pise.resources import resources
 from . import models
 
 # Register your models here.
 
-@admin.register(models.Matricula)
-class MatriculaAdmin(ImportExportModelAdmin):
-    pass
-    #admin.site.register(models.Alumno)
 admin.site.register(models.Establecimiento)
-#admin.site.register(models.Matricula,MatriculaAdmin)
+admin.site.register(models.Matricula)
 
 admin.site.register(models.Mail)
 admin.site.register(models.CorreosEstablecimiento)
