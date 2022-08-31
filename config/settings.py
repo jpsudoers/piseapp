@@ -176,14 +176,4 @@ EMAIL_HOST_PASSWORD = ""
 '''
 DEFAULT_FILE_STORAGE = 'storages.backends.s3boto3.S3Boto3Storage'
 
-
-AWS_S3_ACCESS_KEY_ID = 'AKIASI7O64UGL5YFCNVM' #'AKIA4DHUJCCZ6M6L4S47' -> Configuracion Anterior
-AWS_S3_SECRET_ACCESS_KEY = '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' #'TkYFOHj3OzAsvvY5TMCNXXJboH+7EWmmLs+Wvrer' -> Configuracion Anterior
-AWS_STORAGE_BUCKET_NAME = 'PiseAPP'#'pise-app'
-AWS_S3_ENDPOINT_URL = 'https://elasticbeanstalk-us-east-1-156730582284.s3.amazonaws.com/'
-
-
-AWS_S3_REGION_NAME = 'us-east-1'
-AWS_S3_FILE_OVERWRITE = False
-AWS_DEFAULT_ACL = None
 '''

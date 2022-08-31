@@ -53,9 +53,9 @@
                     </label>
                     <div class="col">
                         <table>
-                            {% if matricula.email != '' %}<tr><td><b>Email:</b></td><td>{{matricula.email}}</td></tr>{% endif%}
-                            {% if matricula.telefono != '' %}<tr><td><b>Telefono:</b></td><td>{{matricula.telefono}}<td></tr>{% endif%}
-                            {% if matricula.celular != '' %}<tr><td><b>Celular:</b></td><td>{{matricula.celular}}</td></tr>{% endif%}
+                            {% if matricula.email%}{% if matricula.email != '' %}<tr><td><b>Email:</b></td><td>{{matricula.email}}</td></tr>{% endif%}{% endif%}
+                            {% if matricula.telefono%}{% if matricula.telefono != '' %}<tr><td><b>Telefono:</b></td><td>{{matricula.telefono}}<td></tr>{% endif%}{% endif%}
+                            {% if matricula.celular %}{% if matricula.celular != '' %}<tr><td><b>Celular:</b></td><td>{{matricula.celular}}</td></tr>{% endif%}{% endif%}
                         </table>
                         
                     </div>

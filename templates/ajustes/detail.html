@@ -3,15 +3,15 @@
 
 {% block content-header %}
 <div class="card-header">
-    <!--div class="card-tools">
-        <a href="#" class="btn btn-tool"></a>
+    <div class="card-tools">
+       <!-- <a href="#" class="btn btn-tool"></a>
         <a href="{% url 'update' user.establecimiento.id %}" class="btn btn-tool">
             <i class="fas fa-edit"></i>
-        </a>
-        <a href="" class="btn btn-tool">
+        </a>-->
+        <a href="/" class="btn btn-tool">
             <i class="fas fa-times"></i>
         </a>
-    </div-->
+    </div>
 </div>
 {% endblock content-header %}
 {% block content %}
@@ -41,7 +41,11 @@
                     <label for="fechanacimiento" class="col">Domicilio</label>
                     <div class="col">{{detail.direccion}}</div>
                 </div>
+                {% if user.establecimiento.logo %}
                 <img class="img-circle mx-auto d-block" src="{{user.establecimiento.logo.url}}" height="200px" width="200px">
+                {% else %}
+                <p></p>
+                {% endif %}
 
             </div>
         </div>

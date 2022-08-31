@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block title %}Matriculas {% endblock title %}
+
+{% block pagetitle %} Alumnos {% endblock pagetitle %}
+{% block fullcard %}
+
+<div class="card">
+    {% if mensaje %}
+    <div class="alert alert-info text-center" role="alert">
+        {{mensaje}}
+    </div>
+    {% endif %}
+    <div id="alert" class="alert alert-success text-center" style="display: none;" role="alert">
+        <p id="content"></p>
+    </div>
+    <div class="card-header">
+            Inscribir Alumnos
+            <div class="card-tools">
+                <a href="#" class="btn btn-tool"></a>
+                <a href="{% url 'matriculas' %}" class="btn btn-tool">
+                    <i class="fas fa-times"></i>
+                </a>
+            </div>
+        </div>
+    <div class="card-body">
+        {% block contenido %}  
+        <form action="" method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+            {% for field in form %}
+            <div class="form-group row">
+                <div for="{{ field.label }}" class="col-sm-2 col-form-label">
+                    {{ field.label_tag }}
+                </div>
+                <div class="col-sm-10">
+                    {{ field }}
+                </div>
+            </div>
+            {% endfor %}
+            
+            <button type="submit" class="btn btn-success">Guardar</button>
+        </form>
+        {% endblock %}  
+    </div>
+    {% endblock fullcard %}

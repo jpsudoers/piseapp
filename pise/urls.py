@@ -9,15 +9,18 @@ urlpatterns = [
     path('logout/', views.logout_view, name='logout'),
     #Establecimiento
     path('ajustes/<int:pk>', views.EstablecimientoUsuarioDetailView.as_view(),name='detail'),
-    path('ajustes/update/<int:pk>',views.EstablecimientoUsuarioUpdateView.as_view(),name='update'),
+    path('ajustes/<int:pk>/actualizar',views.EstablecimientoUsuarioUpdateView.as_view(),name='update'),
     #Alumnos
     path('matriculas/', views.MatriculaEstablecimientoListView.as_view(), name='matriculas'),
     path('matricula/<int:pk>', views.MatriculaEstablecimientoDetailView.as_view(), name='matricula_detail'),
-    path('matricula/edit/<int:pk>',views.MatriculaEstablecimientoUpdateView.as_view(), name='matricula_edit' ),
+    path('matricula/<int:pk>/actualizar',views.MatriculaEstablecimientoUpdateView.as_view(), name='matricula_edit' ),
     path('matriculas/crear', views.Import_csv, name='matriculas_create'),
+    path('matriculas/inscribir', views.MatriculaEstablecimientoCreateView.as_view(), name='matriculas_add'),
     #Funcionarios
     path('funcionarios/', views.FuncionarioEstablecimientoListView.as_view(), name='funcionarios'),
     path('funcionario/<int:pk>', views.FuncionarioEstablecimientoDetailView.as_view(), name='funcionario_detail'),
+    #path('funcionario/<int:pk>/actualizar',views.FuncionarioEstablecimientoUpdateView.as_view(), name='funcionario_edit' ),
+    #path('funcionario/crear', views.FuncionarioEstablecimientoCreateView.as_view(), name='funcionario_add'),
     #CASOS
     path('caso/', views.CasoCreateView.as_view(), name='create_caso'),
     path('caso/<int:pk>/update', views.CasoUpdateView.as_view(), name='update_caso'),

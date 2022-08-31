@@ -1,5 +1,6 @@
 from multiprocessing import context
 from pyexpat import model
+from unittest import loader
 from urllib.request import Request
 from django.http.response import HttpResponse, HttpResponseRedirect
 from django.shortcuts import redirect, render
@@ -134,7 +135,7 @@ class MatriculaEstablecimientoUpdateView(LoginRequiredMixin,UpdateView):
 
     def get_success_url(self) -> str:
         instance = self.get_object()
-        return reverse('matricula_edit',kwargs={'pk': instance.pk })
+        return reverse('matricula_detail',kwargs={'pk': instance.pk })
 
 def Import_csv(request):
     try:
@@ -178,6 +179,24 @@ def Import_csv(request):
     except Exception as identifier:            
         mensaje = identifier
     return render(request, 'matriculas/create_case.html')    
+
+class MatriculaEstablecimientoCreateView(LoginRequiredMixin, CreateView):
+    model = models.Matricula
+    template_name = 'matriculas/create_unique.html'
+    context_object_name = 'caso'
+
+    def get(self, request, *args, **kwargs):
+        context = {'form': forms.MatriculaEstablecimientoCreateForm()}
+        return render(request, 'matriculas/create_unique.html', context)
+
+    def post(self, request, *args, **kwargs):
+        form = forms.MatriculaEstablecimientoCreateForm(request.POST)
+        if form.is_valid():
+            alumno = form.save(commit=False)
+            alumno.esta_activo = True
+            alumno.establecimiento = self.request.user.establecimiento
+            alumno.save()
+        return HttpResponseRedirect(reverse_lazy('matricula_detail', args=[alumno.id]))
 
 
 
@@ -1056,7 +1075,6 @@ class MaltratoFuncionarioToAlumnoCreateView(CreateView):
         context = {'form' : form,}
         return render(request, 'maltrato/create_case_alumno_alumno.html', context)
     
-
     def post(self, request, *args, **kwargs):
         form = forms.MaltratoFuncionarioToAlumnoCreateForm(request.POST)
         if form.is_valid():
@@ -1095,18 +1113,53 @@ class FuncionarioEstablecimientoDetailView(DetailView):
     template_name= 'funcionarios/detail.html'
     pass
 
-#region MC
+class FuncionarioEstablecimientoUpdateView(UpdateView):
+    model = models.FuncionarioEstablecimiento
+    template_name = 'funcionarios/updates.html'
+    form_class = forms.FuncionarioEstablecimientoUpdateForm
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super(FuncionarioEstablecimientoUpdateView, self).get(request, *args, **kwargs)
+
+    def get_success_url(self) -> str:
+        instance = self.get_object()
+        return reverse('funcionario_detail',kwargs={'pk': instance.pk })
+
+class FuncionarioEstablecimientoCreateView(CreateView):
+    model = models.FuncionarioEstablecimiento
+    template_name = 'funcionarios/create.html'
+    context_object_name = 'funcionario'
+
+    def get(self, request, *args, **kwargs):
+        context = {'form': forms.FuncionarioEstablecimientoCreateForm}
+        return render(request, 'funcionarios/create.html', context)
+
+    def get_success_url(self) -> str:
+        return reverse('funcionarios', kwargs={'pk': self.object.id})
+
+
 class EstablecimientoUsuarioDetailView(LoginRequiredMixin,DetailView):
     model = models.Establecimiento
     context_object_name = 'detail'
     template_name = 'ajustes/detail.html'    
     pass
 
-
-
-
-class EstablecimientoUsuarioUpdateView(UpdateView):
+class EstablecimientoUsuarioUpdateView(LoginRequiredMixin,UpdateView):
     model = models.Establecimiento
+    template_name = 'ajustes/updates.html'
+    form_class = forms.EstablecimientoUsuarioUpdateForm
+    
+    def get(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        return super(EstablecimientoUsuarioUpdateView, self).get(request, *args, **kwargs)
+
+    def get_success_url(self) -> str:
+        instance = self.get_object()
+        return reverse('detail',kwargs={'pk': instance.pk })
+
+'''
+   model = models.Establecimiento
     template_name = 'ajustes/updates.html'
     form_class = forms.EstablecimientoUsuarioUpdateForm
     
@@ -1122,6 +1175,4 @@ class EstablecimientoUsuarioUpdateView(UpdateView):
     def get_success_url(self) -> str:
         instance = self.get_object()
         return reverse('detail',kwargs={'pk': instance.pk })
-
-           
-#endregion
+'''

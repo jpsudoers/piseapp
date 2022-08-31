@@ -8,6 +8,14 @@
                 {% csrf_token %}
                 <div class="card-header">
                     <div class="card-title">Alerta Rápida para Caso</div>
+                    <div class="card-tools">
+                        {% if user.establecimiento.reglamento_interno%}
+                        <a class="btn btn-primary" href="{{user.establecimiento.reglamento_interno.url}}">
+                            <i class="fa fa-download"></i> Reglamento Interno
+                        </a>
+                        {% endif %} 
+
+                    </div>
                 </div>
                 <div class="card-body">
                     <div class="form-group">

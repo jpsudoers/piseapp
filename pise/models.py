@@ -36,11 +36,17 @@ class Establecimiento(models.Model):
     logo = models.ImageField(upload_to='logo_colegio/', blank=True, null=True)
     reglamento_interno = models.FileField(upload_to='reglamento/', blank=True, null=True)
     
+    class Meta:
+        db_table = 'pise_establecimiento'
+        verbose_name = "establecimiento"
+        verbose_name_plural = "establecimientos"
+
     def __str__(self) -> str:
         return f'{self.rbd} {self.nombre}'
 
-    
-   
+    def get_absolute_url(self):
+        return reverse('detail', args=[str(self.id)])
+
 
 class Matricula(models.Model):
     FEMENINO = 'F'
