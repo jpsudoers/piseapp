@@ -303,3 +303,5 @@ fabric.properties
 # End of https://www.toptal.com/developers/gitignore/api/django,macos,visualstudiocode,pycharm
 .vscode/launch.json
 *.jpg
+media/reglamento/
+media/logo_colegio/
