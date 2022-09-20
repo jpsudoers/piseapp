@@ -24,6 +24,7 @@ SECRET_KEY = 'django-insecure-oaw1s+8ls$0f@43k48ryqgx(iepy(zi)ie$@1@f4_l2n54ph=3
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
+#DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -84,6 +85,16 @@ DATABASES = {
         'NAME': BASE_DIR / 'db.sqlite3',
    }
 }
+
+DATABASES = {
+    'default': {
+        'ENGINE': 'django.db.backends.postgresql',
+        'NAME': "PiseApp",
+        'USER': "pise",
+        'PASSWORD': "pise_2022",
+        'HOST': "localhost",
+        'PORT': "5432",  # 5432 by default
+    }
 '''
 DATABASES = {
     'default': {
@@ -94,6 +105,7 @@ DATABASES = {
         'HOST': "localhost",
         'PORT': "5432",  # 5432 by default
     }
+
 }
 
 # import dj_database_url

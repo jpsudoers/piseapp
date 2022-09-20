@@ -43,17 +43,19 @@
                 <button class="btn btn-md btn-success" type="submit">Subir</button>  
             </div>
         </div>
-        </form-->  
+    </form>--> 
         {% endblock %}  
     </div>
 
 </div>
 {% if alumnos %}
 <div class="card">
+    <form method="post" enctype="multipart/form-data"></form>
     <div class="card-header">
         <div class="row">
-            <div class="col-md-11">Estos alumno serán ingresados:</div>
-            <div class="col-md-1"><button id="btn_save" class="btn btn-success" name="Guardar" type="submit">Guardar</button></div>
+            <div class="col-md-11">Los Siguientes registros ya existen:</div>
+            <div class="col-md-1"><button id="btn_save" class="btn btn-success">Aceptar</button></div>
+        
         </div>
     </div>
     <div class="card-body">
@@ -85,7 +87,7 @@
 
 {% block morejs %}
 <script>
-    $('#alumnos').DataTable({
+     $('#alumnos').DataTable({
         "searching": false, 
         "language": {
             "sProcessing": "Procesando...",
@@ -121,9 +123,9 @@
     });
     $('#alumnos_filter').hide();
 
-    $("#btn_save").on("click", function(){
+   $("#btn_save").on("click", function(){
         url= '{% url 'matriculas' %}';
-        $("#content").html("Se ha guardado con exito");
+        $("#content").html("Redireccionando a Alumnos");
         $("#alert").show();
         setTimeout(function(){window.location = url;}, 900);
     })

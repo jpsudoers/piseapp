@@ -7,7 +7,14 @@
 
 <div class="card">
     <div class="card-header">
-        Funcionarios
+        <div class="card-header">
+            Funcionarios
+            <div class="card-tools">
+                <a href="{% url 'funcionario_add' %}" class="btn btn-tool" alt="Agregar"><i class="fas fa-plus"></i></a>
+            <!--div class="col-md-1"><a href="" class="btn btn-sm btn-secondary" type="button"><i class="fas fa-plus"></i> Agregar</a></div>
+        </div-->
+    </div>
+        
     </div>
     <div class="card-body">
         <table id="alumnos" class="table table-bordered table-hover">

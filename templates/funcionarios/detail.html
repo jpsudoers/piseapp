@@ -4,11 +4,10 @@
 {% block content-header %}
 <div class="card-header">
     <div class="card-tools">
-        <a href="#" class="btn btn-tool"></a>
-        <a href="" class="btn btn-tool">
+        <a href="{% url 'funcionario_edit' funcionario.pk %}" class="btn btn-tool">
             <i class="fas fa-edit"></i>
         </a>
-        <a href="" class="btn btn-tool">
+        <a href="{% url 'funcionarios' %}" class="btn btn-tool">
             <i class="fas fa-times"></i>
         </a>
     </div>

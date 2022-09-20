@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+{% block title %}Actualizar Información Funcionario  {% endblock title %}
+{% block content-header %}
+<div class="card-header">
+    Actualizar Información de Funcionario
+    <div class="card-tools">
+        <a href="{% url 'funcionarios' %}" class="btn btn-tool">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+</div>
+{% endblock content-header %}
+{% block content %}
+<div class="form-group border-bottom row">
+<label for="nombre" class="col">
+    Run
+</label>
+<div class="col">
+{{object.rut}}-{{object.dv}}
+</div>
+</div>
+<div class="form-group border-bottom row">
+<label for="nombre" class="col">
+    Nombre
+</label>
+<div class="col">
+    {{object.nombres}} {{object.apellido_paterno}} {{object.apellido_materno}}
+</div>
+</div>
+
+<form action="" method="POST">
+
+    {% csrf_token %}
+    <br/>
+    {{form.as_p}}
+    <table>
+    
+    </table>
+    <button type="submit" class="btn btn-success">Actualizar</button>
+</form>
+{% endblock content %}

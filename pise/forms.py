@@ -335,7 +335,7 @@ class EstablecimientoUsuarioUpdateForm(forms.ModelForm):
 class FuncionarioEstablecimientoUpdateForm(forms.ModelForm):
     class Meta:
         model = models.FuncionarioEstablecimiento
-        exclude = ['rut','dv','nombre','nombre','apellido_paterno','apellido_materno']
+        exclude = ['rut','dv','nombre','nombre','apellido_paterno','apellido_materno','establecimiento']
         widgets = {
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Domicilio', 'required': True}),
             'cargo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail', 'required': True}),
@@ -352,7 +352,7 @@ class FuncionarioEstablecimientoCreateForm(forms.ModelForm):
             'apellido_paterno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido Paterno', 'required': True}),
             'apellido_materno': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Apellido Materno', 'required': True}),
             'direccion': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Domicilio', 'required': True}),
-            'cargo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'E-mail', 'required': True}),
+            'cargo': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Cargo', 'required': True}),
             'fecha_nacimiento': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
         }
 

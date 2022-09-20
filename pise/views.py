@@ -102,7 +102,7 @@ def descarga_archivo_accidente_escolar(request):
     response['Content-Disposition'] = "attachment;"
     return response
 
-
+#region Matricula
 class MatriculaEstablecimientoListView(LoginRequiredMixin,ListView):
     model = models.Matricula
     context_object_name = 'casos_list'
@@ -117,7 +117,6 @@ class MatriculaEstablecimientoListView(LoginRequiredMixin,ListView):
             ).filter(esta_activo = True)
         
         return qs
-
 
 class MatriculaEstablecimientoDetailView(LoginRequiredMixin, DetailView):
     model = models.Matricula
@@ -137,12 +136,12 @@ class MatriculaEstablecimientoUpdateView(LoginRequiredMixin,UpdateView):
         instance = self.get_object()
         return reverse('matricula_detail',kwargs={'pk': instance.pk })
 
-def Import_csv(request):
+def CargarNominaMatriculas(request):
+    fs = FileSystemStorage()
+    repetido = []
     try:
         if request.method == 'POST' and request.FILES['importData']:
-            alumnos = []
             myfile = request.FILES['importData']        
-            fs = FileSystemStorage()
             filename = fs.save(myfile.name, myfile)
             excel_file = os.path.join(settings.MEDIA_ROOT,filename) 
             read_file = pd.read_excel (excel_file)
@@ -152,30 +151,31 @@ def Import_csv(request):
             dtframe['Celular'] = dtframe['Celular'].astype(str).replace('\.0', '', regex=True)
             dbframe = dtframe
             for dbframe in dbframe.itertuples():
-                
                 if str(request.user.establecimiento.rbd) == str(dbframe.RBD):
                     establecimiento = request.user.establecimiento
+
+                    if dbframe._21 >= dbframe._22:
+                        activo=1
+                    else:
+                        activo=0
+                    try:
+                        obj = models.Matricula.objects.get(rut=dbframe.Run)
+                        repetido.append(obj)
+                    except models.Matricula.DoesNotExist:
+                        obj = models.Matricula(rut=dbframe.Run,dv=dbframe._8, nombres=dbframe.Nombres, apellido_paterno=dbframe._11,  apellido_materno=dbframe._12,
+                                                domicilio_actual=dbframe.Dirección, Comuna_residencia=dbframe._14, email=dbframe.Email, telefono=dbframe.Telefono, celular=dbframe.Celular,
+                                                fecha_nacimiento=dbframe._19, codigo_etnia=dbframe._20, nivel=dbframe._5, letra=dbframe._6, año=dbframe.Año,fecha_incorporacion=dbframe._21,
+                                                fecha_retiro=dbframe._22, esta_activo=activo, establecimiento=establecimiento, genero=dbframe.Genero)
+                        obj.save() 
                 else:
                      mensaje = '%s no corresponde a esta institucion, verifique su RBD'%filename  
-                if dbframe._21 >= dbframe._22:
-                    activo=1
-                else:
-                    activo=0
-
-                obj = models.Matricula.objects.create(rut=dbframe.Run,dv=dbframe._8, nombres=dbframe.Nombres, apellido_paterno=dbframe._11,  apellido_materno=dbframe._12,
-                                            domicilio_actual=dbframe.Dirección, Comuna_residencia=dbframe._14, email=dbframe.Email, telefono=dbframe.Telefono, celular=dbframe.Celular,
-                                            fecha_nacimiento=dbframe._19, codigo_etnia=dbframe._20, nivel=dbframe._5, letra=dbframe._6, año=dbframe.Año,fecha_incorporacion=dbframe._21,
-                                            fecha_retiro=dbframe._22, esta_activo=activo, establecimiento=establecimiento, genero=dbframe.Genero)
-                alumnos.append(obj)
             os.remove(excel_file)
-            return render(request, 'matriculas/create_case.html', {'alumnos': alumnos}) 
-        else:
-            os.remove(excel_file)
-        if 'Guardar' in request.POST:
-            for obj in alumnos:
-                obj.save()
-            mensaje = 'Se ha cargado exitosamente %s'%filename       
-        return render(request, 'matriculas/list_case.html', {'mensaje': mensaje})    
+            if len(repetido) > 0 :
+                mensaje = 'Se ha cargado exitosamente %s ignorando %d registros al ya existir'%(filename,len(repetido))
+            else:
+                mensaje = 'Se ha cargado exitosamente %s'%filename
+            return render(request, 'matriculas/create_case.html', {'alumnos':repetido,'mensaje': mensaje})       
+                   
     except Exception as identifier:            
         mensaje = identifier
     return render(request, 'matriculas/create_case.html')    
@@ -197,7 +197,7 @@ class MatriculaEstablecimientoCreateView(LoginRequiredMixin, CreateView):
             alumno.establecimiento = self.request.user.establecimiento
             alumno.save()
         return HttpResponseRedirect(reverse_lazy('matricula_detail', args=[alumno.id]))
-
+#endregion
 
 
 class DiscriminacionListView(LoginRequiredMixin,ListView):
@@ -1089,6 +1089,7 @@ class MaltratoFuncionarioToAlumnoCreateView(CreateView):
 """
     FUNCIONARIOS MODELS
 """
+#region Funcionario
 class FuncionarioEstablecimientoListView(ListView):
     model = models.FuncionarioEstablecimiento
     context_object_name = 'list'
@@ -1100,12 +1101,9 @@ class FuncionarioEstablecimientoListView(ListView):
         else:
             qs = models.FuncionarioEstablecimiento.objects.filter(
                 establecimiento = self.request.user.establecimiento
-            )
-        
+            )        
         return qs
-
     pass
-
 
 class FuncionarioEstablecimientoDetailView(DetailView):
     model = models.FuncionarioEstablecimiento
@@ -1135,10 +1133,21 @@ class FuncionarioEstablecimientoCreateView(CreateView):
         context = {'form': forms.FuncionarioEstablecimientoCreateForm}
         return render(request, 'funcionarios/create.html', context)
 
-    def get_success_url(self) -> str:
-        return reverse('funcionarios', kwargs={'pk': self.object.id})
+    def post(self, request, *args, **kwargs):
+        try:
+            form = forms.FuncionarioEstablecimientoCreateForm(request.POST)
+            if form.is_valid():
+                funcionario = form.save(commit=False)
+                funcionario.establecimiento = self.request.user.establecimiento
+                funcionario.save()
+            return HttpResponseRedirect(reverse_lazy('funcionario_detail', args=[funcionario.id]))
+        except Exception as e:
+            mensaje = 'Ya existe un registro con este RUN'
+            context = {'form': forms.FuncionarioEstablecimientoCreateForm, 'mensaje': mensaje}
+            return render(request, self.template_name, context)
+#endregion
 
-
+#region Establecimiento
 class EstablecimientoUsuarioDetailView(LoginRequiredMixin,DetailView):
     model = models.Establecimiento
     context_object_name = 'detail'
@@ -1157,22 +1166,4 @@ class EstablecimientoUsuarioUpdateView(LoginRequiredMixin,UpdateView):
     def get_success_url(self) -> str:
         instance = self.get_object()
         return reverse('detail',kwargs={'pk': instance.pk })
-
-'''
-   model = models.Establecimiento
-    template_name = 'ajustes/updates.html'
-    form_class = forms.EstablecimientoUsuarioUpdateForm
-    
-
-    def get(self, request, *args, **kwargs):
-        self.object = self.get_object()
-        if request.method == 'POST':
-            form = forms.EstablecimientoUsuarioUpdateForm(request.POST, request.FILES)
-            if form.is_valid():
-                form.save()
-        return super(EstablecimientoUsuarioUpdateView, self).get(request, *args, **kwargs)
-
-    def get_success_url(self) -> str:
-        instance = self.get_object()
-        return reverse('detail',kwargs={'pk': instance.pk })
-'''
+#endregion
