@@ -52,7 +52,7 @@ class Matricula(models.Model):
         (MASCULINO, 'Masculino'),
     ]
     #alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
-    rut = models.IntegerField(unique=True)
+    rut = models.IntegerField()
     dv = models.CharField(max_length=1, blank=True, null=True)
     genero = models.CharField(max_length=1, choices=STATE_CHOICES, null=True)
     nombres = models.CharField(max_length=255, blank=True, null=True)
@@ -77,7 +77,7 @@ class Matricula(models.Model):
     esta_activo = models.BooleanField()
 
     def __str__(self) -> str:
-        return f'{self.nombres} {self.apellido_paterno} {self.apellido_materno} {self.nivel}'
+        return f'{self.nombres} {self.apellido_paterno} {self.apellido_materno} {self.nivel} - {self.letra}'
     
     def get_absolute_url(self):
         return reverse('matricula_detail', args=[str(self.id)])
@@ -85,7 +85,7 @@ class Matricula(models.Model):
 
 
 class FuncionarioEstablecimiento(models.Model):
-    rut = models.IntegerField(unique=True)
+    rut = models.IntegerField()
     dv = models.CharField(max_length=1)
     nombre = models.CharField(max_length=255)
     apellido_paterno = models.CharField(max_length=255)
@@ -416,26 +416,36 @@ class AccidenteEscolar(models.Model):
         (REVISION, 'En revision'),
         (FINSH, 'Finalizado'),
     ]
+    LLAMADA = 'llamada'
+    LIBRETA = 'libreta'
+    PRESENCIAL = 'presencial'
+    CONTACT_CHOICES = [
+        (LLAMADA, 'Llamada'),
+        (LIBRETA, 'Libreta'),
+        (PRESENCIAL, 'Presencial'),
+    ]
     
     estado = models.CharField(max_length=255, choices=STATE_CHOICES, default=NOLEIDO)
     accidentado = models.ForeignKey(Matricula, on_delete=models.CASCADE)
-    fecha_ingreso = models.DateField(blank=True, null=True)
+    fecha_accidente = models.DateField(blank=True, null=True)
 
-    malestar_fisico = models.CharField(max_length=255, blank=True, null=True)
-    nombre_familiar_contacto = models.CharField(max_length=255, blank=True, null=True)
-    instruccion_familiar = models.CharField(max_length=255, blank=True, null=True)
+    persona_que_solicito_el_seguro = models.CharField(max_length=255, blank=True, null=True)
+    lugar_del_accidente = models.CharField(max_length=255, blank=True, null=True)
+    nombre_apoderado = models.CharField(max_length=255, blank=True, null=True)
 
     consecuencias_medicas = models.CharField(max_length=255, blank=True, null=True)
 
     # descripcion_breve = models.TextField(blank=True, null=True)
-    detalle_relato = models.TextField(blank=True, null=True)
+    observaciones = models.TextField(blank=True, null=True)
 
-    testigo_uno = models.CharField(max_length=255, blank=True, null=True)
-    testigo_dos = models.CharField(max_length=255, blank=True, null=True)
+    medio_contacto_apoderado = models.CharField(max_length=255, choices=CONTACT_CHOICES, default=NOLEIDO)
+    #testigo_uno = models.CharField(max_length=255, blank=True, null=True)
+    #testigo_dos = models.CharField(max_length=255, blank=True, null=True)
 
     archivo_declaracion_individual = models.FileField(upload_to='declaracion_individual/', blank=True, null=True)
 
-    llama_apoderado = models.BooleanField(blank=True, null=True)
+    #llama_apoderado = models.BooleanField(blank=True, null=True)
+
 
     class Meta:
         db_table = 'caso_accidente'
@@ -443,7 +453,19 @@ class AccidenteEscolar(models.Model):
         verbose_name_plural = "casos accidentes"
 
     def __str__(self) -> str:
-        return f'{self.accidentado} {self.detalle_relato} {self.estado}'
+        return f'{self.accidentado} {self.observaciones} {self.estado}'
+
+    def get_absolute_url(self):
+        return reverse('detail_accidente', args=[str(self.id)])
+
+
+    class Meta:
+        db_table = 'caso_accidente'
+        verbose_name = "caso accidente"
+        verbose_name_plural = "casos accidentes"
+
+    def __str__(self) -> str:
+        return f'{self.accidentado} {self.observaciones} {self.estado}'
 
     def get_absolute_url(self):
         return reverse('detail_accidente', args=[str(self.id)])

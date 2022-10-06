@@ -5,18 +5,14 @@
 <div class="card-header">
     <div class="card-tools">
         <a href="#" class="btn btn-tool"></a>
-        <a href="" class="btn btn-tool">
-            <i class="fas fa-edit"></i>
-        </a>
-        <a href="" class="btn btn-tool">
+        <a href="{% url 'list_accidente' %}" class="btn btn-tool">
             <i class="fas fa-times"></i>
         </a>
     </div>
 </div>
 {% endblock content-header %}
-{% block fullcard %}
-<div class="card">
-    <div class="card-header">
+{% block content %}
+
         <div class="row">
             <div class="col-sm-6">
                 <h1 class="display-6">Detalle accidente</h1>
@@ -31,6 +27,7 @@
                             Nombre Afectado
                         </label>
                         <div class="col">
+                            {{caso.accidentado.nombres}} {{caso.accidentado.apellido_paterno}} {{caso.accidentado.apellido_materno}}
                         </div>
                     </div>
 
@@ -39,6 +36,7 @@
                             Curso
                         </label>
                         <div class="col">
+                            {{caso.accidentado.nivel}} - {{caso.accidentado.letra}}
                         </div>
                     </div>
 
@@ -47,14 +45,31 @@
                             Fecha Nacimiento
                         </label>
                         <div class="col">
+                            {{caso.accidentado.fecha_nacimiento}}
                         </div>
                     </div>
         
                     <div class="form-group border-bottom row">
                         <label for="" class="col">
-                            Apoderado
+                            Información Apoderado
                         </label>
                         <div class="col">
+                            <table>
+                                <tr><td>{{caso.nombre_apoderado}}</td></tr>
+                                {% if caso.accidentado.email%}{% if caso.accidentado.email != '' %}<tr><td><b>Email:</b></td><td>{{caso.accidentado.email}}</td></tr>{% endif%}{% endif%}
+                                {% if caso.accidentado.telefono%}{% if caso.accidentado.telefono != '' %}<tr><td><b>Telefono:</b></td><td>{{caso.accidentado.telefono}}<td></tr>{% endif%}{% endif%}
+                                {% if caso.accidentado.celular %}{% if caso.accidentado.celular != '' %}<tr><td><b>Celular:</b></td><td>{{caso.accidentado.celular}}</td></tr>{% endif%}{% endif%}
+                            </table>
+    
+                        </div>
+                    </div>
+
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Medio de Contacto Apoderado
+                        </label>
+                        <div class="col">
+                            {{caso.medio_contacto_apoderado}}
                         </div>
                     </div>
         
@@ -68,61 +83,56 @@
                     <hr>
                     <div class="form-group border-bottom row">
                         <label for="" class="col">
-                            Fecha Ingreso del Caso
+                            Fecha Accidente
                         </label>
                         <div class="col">
+                            {{caso.fecha_accidente}}
                         </div>
                     </div>
                     
                     <div class="form-group border-bottom row">
                         <label for="" class="col">
-                            Malestar Físico
+                            Persona que Solicitó el Seguro
                         </label>
                         <div class="col">
+                            {{caso.persona_que_solicito_el_seguro}}
                         </div>
                     </div>
 
                     <div class="form-group border-bottom row">
                         <label for="" class="col">
-                            Nombre de Familiar de Contacto
+                           Lugar del Accidente
                         </label>
                         <div class="col">
-                        </div>
-                    </div>
-
-                    <div class="form-group border-bottom row">
-                        <label for="" class="col">
-                            Instruccion Familiar
-                        </label>
-                        <div class="col">
+                            {{caso.lugar_del_accidente}}
                         </div>
                     </div>
                     
-                    <div class="form-group border-bottom row">
+                    <!--<div class="form-group border-bottom row">
                         <label for="" class="col">
                             Consecuencias Médicas
                         </label>
                         <div class="col">
-                            
+                            {{caso}}
                         </div>
-                    </div>
+                    </div>-->
 
                     <div class="form-group border-bottom row">
                         <label for="" class="col">
-                            Detalle del Relato
+                            observaciones
                         </label>
                         <div class="col">
-                            
+                            {{caso.observaciones}}
                         </div>
                     </div>
 
-                    <div class="form-group border-bottom row">
+                    <!--<div class="form-group border-bottom row">
                         <label for="" class="col">
                             Declaracion de Accidente del alumno
                         </label>
                         <div class="col">
-
-                    </div>
+                            {{caso}}
+                    </div>-->
                 </div>
             </div>
             <hr>
@@ -130,9 +140,9 @@
             <a href="{% url 'update_estado_accidente' caso.pk %}" class="btn btn-success">Actualizar Estado</a>
         </div>
     </div>
-</div>
 
-{% endblock fullcard %}
+
+{% endblock content %}
 
 
 

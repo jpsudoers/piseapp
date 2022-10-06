@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}Actualizar Estado {% endblock title %}
+{% block content-header %}
+<div class="card-header">
+    <div class="card-tools">
+        <a href="#" class="btn btn-tool"></a>
+        <a href="{% url 'list_accidente' %}" class="btn btn-tool">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+</div>
+{% endblock content-header %}
 {% block content %}
 <div class="row">
     <div class="col-sm-12">
@@ -43,7 +53,7 @@
                 Fecha del Caso
             </label>
             <div class="col">
-                {{object.fecha_ingreso}}
+                {{object.fecha_accidente}}
             </div>
         </div>
 
@@ -52,7 +62,7 @@
                 Detalle de lo sucedido
             </label>
             <div class="col">
-                {{object.detalle_relato}}
+                {{object.observaciones}}
             </div>
         </div>
     </div>
