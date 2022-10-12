@@ -52,7 +52,7 @@ class Matricula(models.Model):
         (MASCULINO, 'Masculino'),
     ]
     #alumno = models.ForeignKey(Alumno, on_delete=models.CASCADE)
-    rut = models.IntegerField()
+    rut = models.IntegerField(unique=True)
     dv = models.CharField(max_length=1, blank=True, null=True)
     genero = models.CharField(max_length=1, choices=STATE_CHOICES, null=True)
     nombres = models.CharField(max_length=255, blank=True, null=True)
@@ -85,7 +85,7 @@ class Matricula(models.Model):
 
 
 class FuncionarioEstablecimiento(models.Model):
-    rut = models.IntegerField()
+    rut = models.IntegerField(unique=True)
     dv = models.CharField(max_length=1)
     nombre = models.CharField(max_length=255)
     apellido_paterno = models.CharField(max_length=255)
