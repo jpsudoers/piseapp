@@ -48,7 +48,16 @@
                             {{caso.accidentado.fecha_nacimiento}}
                         </div>
                     </div>
-        
+                    {% if caso.archivo_declaracion_individual %}
+                    <div class="form-group border-bottom row">
+                        <label for="" class="col">
+                            Declaracion Indivial
+                        </label>
+                        <div class="col">
+                            <a class="btn btn-light" href=" {{caso.archivo_declaracion_individual.url}}"><i class="nav-icon fas fa-file"></i> Descargar</a>
+                        </div>
+                    </div>
+                    {% endif %}
                     <div class="form-group border-bottom row">
                         <label for="" class="col">
                             Información Apoderado
@@ -145,8 +154,6 @@
 {% endblock content %}
 
 
-
-{{ caso.archivo_declaracion_individual }}
 <br>
 <a href="{% url 'update_accidente' caso.pk %}">Actualizar</a>
 <hr>

@@ -820,16 +820,20 @@ class ReportesView(TemplateView):
         #     context["tipo"] = tipo
 
         if self.request.user.is_admin:
-            context['casos_discriminaciones'] = models.Discriminacion.objects.all()
+            #context['casos_discriminaciones'] = models.Discriminacion.objects.all()
             context['casos_connotacion'] = models.ConnotacionSexual.objects.all()
-            context['casos_maltrato'] = models.Matricula.objects.all()
+            context['casos_maltrato'] = models.Maltrato.objects.all()
             context['casos_accidentes'] = models.AccidenteEscolar.objects.all()
+            context['casos_vulneracion'] = models.VulneracionDerechosFuncionarios.objects.all()
+            context['casos_dificultad'] = models.DificultadConstitucionConsejo.objects.all()
             
         else:
-            context['casos_discriminaciones'] = models.Discriminacion.objects.filter(victima__establecimiento = self.request.user.establecimiento)
+            #context['casos_discriminaciones'] = models.Discriminacion.objects.filter(victima__establecimiento = self.request.user.establecimiento)
             context['casos_connotacion'] = models.ConnotacionSexual.objects.filter(victima__establecimiento = self.request.user.establecimiento)
             context['casos_maltrato'] = models.Maltrato.objects.filter(victima__establecimiento = self.request.user.establecimiento)
             context['casos_accidentes'] = models.AccidenteEscolar.objects.filter(accidentado__establecimiento = self.request.user.establecimiento)
+            context['casos_vulneracion'] = models.VulneracionDerechosFuncionarios.objects.filter(funcionario_afectado__establecimiento = self.request.user.establecimiento)
+            context['casos_dificultad'] = models.DificultadConstitucionConsejo.objects.filter(funcionario_afectado__establecimiento = self.request.user.establecimiento)
 
         return context
 
