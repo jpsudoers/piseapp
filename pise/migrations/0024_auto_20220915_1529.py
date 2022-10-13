@@ -14,16 +14,6 @@ class Migration(migrations.Migration):
             name='establecimiento',
             options={},
         ),
-        migrations.AlterField(
-            model_name='funcionarioestablecimiento',
-            name='rut',
-            field=models.IntegerField(unique=True),
-        ),
-        migrations.AlterField(
-            model_name='matricula',
-            name='rut',
-            field=models.IntegerField(unique=True),
-        ),
         migrations.AlterModelTable(
             name='establecimiento',
             table=None,

@@ -41,6 +41,14 @@
                     <label for="fechanacimiento" class="col">Domicilio</label>
                     <div class="col">{{detail.direccion}}</div>
                 </div>
+                {% if detail.reglamento_interno %}
+                <div class="form-group border-bottom row ">
+                    <label for="fechanacimiento" class="col">Reglamento Interno</label>
+                    <div class="col">
+                        <a class="btn btn-light" href=" {{detail.reglamento_interno.url}}"><i class="nav-icon fas fa-file"></i> Descargar</a>
+                    </div>
+                </div>
+                {% endif %}
                 {% if user.establecimiento.logo %}
                 <img class="img-circle mx-auto d-block" src="{{user.establecimiento.logo.url}}" height="200px" width="200px">
                 {% else %}

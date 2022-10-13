@@ -1,13 +1,13 @@
 {% extends 'base.html' %}
 {% load static %}
-{% block title %}Casos: Connotacion Sexual {% endblock title %}
+{% block title %}Casos: Accidentes {% endblock title %}
 
-{% block pagetitle %} Casos de Connotacion Sexual {% endblock pagetitle %}
+{% block pagetitle %} Casos Accidentes {% endblock pagetitle %}
 {% block fullcard %}
   
-  <div class="card shadow p-3 mb-5 bg-white rounded">
-    <div class="card-header">
-      Tabla de casos
+<div class="card">
+  <div class="card-header">
+      Casos de Accidentes
     </div>
     <div class="card-body">
       <table id="casos_con" class="table table-bordered table-hover">
@@ -18,18 +18,24 @@
             <th>Fecha</th>
             <th>Detalle</th>
             <th>Estado</th>
+            <th>Documento</th>
           </tr>
         </thead>
         <tbody>
           {% for accidente in casos_list %}
           <tr>
             <td>{{accidente.pk}}</td>
-            {% with alumno=accidente.accidentado.alumno %}
-                <td>{{alumno}}</td>
-            {% endwith %}
-            <td>{{accidente.fecha_ingreso}}</td>
-            <td><a href="{% url 'detail_accidente' accidente.pk %}">{{ accidente.detalle_relato|truncatechars:"10" }}</a></td>
+            <td> {{accidente.accidentado.nombres}} {{accidente.accidentado.apellido_paterno}} {{accidente.accidentado.apellido_materno}}</td>
+            <td>{{accidente.fecha_accidente}}</td>
+            <td><a href="{% url 'detail_accidente' accidente.pk %}">{{ accidente.observaciones|truncatechars:"10" }}</a></td>
             <td>{{accidente.get_estado_display}}</td>
+            <td>
+              {% if accidente.archivo_declaracion_individual %}
+              <a class="btn btn-outline-light text-dark" href="{{accidente.archivo_declaracion_individual.url}}"> <i class="nav-icon fas fa-file"></i> 
+              {% else %}
+              N/A
+                {% endif %}
+              </td>
           </tr>
           {% endfor %}
         </tbody>

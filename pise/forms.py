@@ -219,35 +219,26 @@ class AccidenteEscolarActualizarEstadoForm(forms.ModelForm):
 class AccidenteEscolarForm(forms.ModelForm):
     class Meta:
         model = models.AccidenteEscolar
-        exclude =('estado',)
+        exclude =('estado','consecuencias_medicas')
         # ['matricula_accidente', 'fecha_ingreso', 'malestar_fisico', 
         #     'nombre_familiar_contacto', 'instruccion_familiar','consecuencias_medicas', 'detalle_relato',
         #     'testigo_uno', 'testigo_dos', 'archivo_declaracion_individual']
         widgets = {
-            'prioridad': forms.Select(attrs={'class': 'form-control'}),
-            'tipo_accidente': forms.Select(attrs={'class': 'form-control'}),
-            'fecha_ingreso': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
-            'malestar_fisico': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Malestar Físico', 'required': True}),
-            'nombre_familiar_contacto': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Familiar Contacto', 'required': True}),
-            'instruccion_familiar': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Instrucción Familiar', 'required': True}),
-            'consecuencias_medicas': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Consecuencias Médicas', 'required': True}),
-            'descripcion_breve': forms.Textarea(
-                attrs={'class': 'form-control', 'placeholder': 'Consecuencias Médicas', 'required': True}),
-            'detalle_relato': forms.Textarea(
+            'accidentado': forms.Select(
+                attrs={'class': 'form-control', 'required': True}),
+            'fecha_accidente': forms.DateInput(format='%d/%m/%Y', attrs={'class': 'form-control', 'type': 'date'}),
+            'persona_que_solicito_el_seguro': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Indicar Nombre', 'required': True}),
+            'lugar_del_accidente': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Si fue dentro la Escuela, especifique donde', 'required': True}),
+            'nombre_apoderado': forms.TextInput(
+                attrs={'class': 'form-control', 'placeholder': 'Nombre del Apoderado', 'required': True}),
+            'observaciones': forms.Textarea(
                 attrs={'class': 'form-control', 'placeholder': 'Detalle del accidente', 'required': True}),
-            'testigo_uno': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Testigo Uno', 'required': True}),
-            'testigo_dos': forms.TextInput(
-                attrs={'class': 'form-control', 'placeholder': 'Testigo Dos', 'required': True}),
+            'medio_contacto_apoderado': forms.Select(
+                attrs={'class': 'form-control', 'required': True}),
             'archivo_declaracion_individual': forms.ClearableFileInput(
                 attrs={'class': 'form-control'}
-            ),
-            'llama_apoderado': forms.CheckboxInput(
-                attrs={'class': 'form-check-input ml-1'}
             )
 
         }

@@ -1,5 +1,15 @@
 {% extends 'base.html' %}
 {% block title %}Edit Caso Connotacion  {% endblock title %}
+{% block content-header %}
+<div class="card-header">
+    <div class="card-tools">
+        <a href="#" class="btn btn-tool"></a>
+        <a href="{% url 'list_accidente' %}" class="btn btn-tool">
+            <i class="fas fa-times"></i>
+        </a>
+    </div>
+</div>
+{% endblock content-header %}
 {% block content %}
 <div class="row">
     <div class="col-sm-12">
@@ -25,7 +35,7 @@
                 Información Victima
             </label>
             <div class="col">
-                <strong>{{object.victima}}</strong>
+                <strong>{{object.accidentado}}</strong>
             </div>
         </div>
 
@@ -40,19 +50,19 @@
 
         <div class="form-group border-bottom row">
             <label for="" class="col">
-                Fecha del Caso
+                Fecha del Accidente
             </label>
             <div class="col">
-                {{object.fecha_creacion}}
+                {{object.fecha_accidente}}
             </div>
         </div>
 
         <div class="form-group border-bottom row">
             <label for="" class="col">
-                Detalle de lo sucedido
+                Observaciones
             </label>
             <div class="col">
-                {{object.detalle}}
+                {{object.observaciones}}
             </div>
         </div>
     </div>
