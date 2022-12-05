@@ -38,8 +38,11 @@ urlpatterns = [
     # CRUD Maltrato
     #path('caso_maltrato/', views.CasoMaltratoCreateView.as_view(), name='create_caso_maltrato'),
     path('caso_maltrato/crear', views.MaltratoCreateView.as_view(), name='maltrato_add'),
-    path('caso_maltrato/crear/alumno_a_alumno', views.MaltratoAlumnoToAlumnoCreateView.as_view(), name='maltrato_alumnotoalumno_add'),
+    path('caso_maltrato/crear/menor_a_menor', views.MaltratoAlumnoToAlumnoCreateView.as_view(), name='maltrato_alumnotoalumno_add'),
+    path('caso_maltrato/crear/adulto_a_menor', views.MaltratoFuncionarioToAlumnoCreateView.as_view(), name='maltrato_funcionariotoalumno_add'),
+    path('caso_maltrato/crear/adulto_a_adulto', views.MaltratoAdultoToAdultoCreateView.as_view(), name='maltrato_adultotoadulto_add'),
     path('caso_maltrato/crear/funcionario_a_alumno', views.MaltratoFuncionarioToAlumnoCreateView.as_view(), name='maltrato_funcionariotoalumno_add'),
+
     path('caso_maltrato/<int:pk>', views.MaltratoDetailView.as_view(), name='maltrato_detail'),
     path('casos_maltrato/', views.MaltratoListView.as_view(), name='maltrato_list'),
     path('caso_maltrato/<int:pk>/actualizar', views.MaltratoUpdateView.as_view(), name='maltrato_update'),
@@ -49,9 +52,9 @@ urlpatterns = [
 
 
     # CRUD Connotacion
-    path('caso_connotacion/', views.FullConnotacionSexualCreateView.as_view(), name='create_caso_connotacion'),
+    path('caso_connotacion/crear', views.FullConnotacionSexualCreateView.as_view(), name='create_caso_connotacion'),
     path('casos_connotacion/', views.ConnotacionSexualListView.as_view(), name='connotacion_list'),
-    path('caso_connotacion/<int:pk>/connotacion/crear/', views.ConnotacionSexualCreateView.as_view(), name='connotacion_add'),
+    #path('caso_connotacion/<int:pk>/connotacion/crear/', views.ConnotacionSexualCreateView.as_view(), name='connotacion_add'),
     path('caso_connotacion/<int:pk>', views.ConnotacionSexualDetailView.as_view(), name='connotacion_detail'),
     path('caso_connotacion/<int:pk>/update', views.ConnotacionSexualUpdateView.as_view(), name='connotacion_update'),
 

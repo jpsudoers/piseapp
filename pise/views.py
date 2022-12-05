@@ -425,6 +425,7 @@ class MaltratoListView(LoginRequiredMixin, ListView):
         return qs
 
 # CONNOTACION SEXUAL
+'''
 class ConnotacionSexualCreateView(LoginRequiredMixin, CreateView):
     model = models.ConnotacionSexual
     fields = ['tipo_connotacion_sexual', 'detalle', 'victima']
@@ -452,10 +453,8 @@ class ConnotacionSexualCreateView(LoginRequiredMixin, CreateView):
         form.instance.caso = models.CasoVulneracion.objects.get(pk=self.kwargs['pk'])
 
         return super(ConnotacionSexualCreateView, self).form_valid(form)
-
+'''
     
-
-
 class ConnotacionSexualDetailView(LoginRequiredMixin, DetailView):
     model = models.ConnotacionSexual
     context_object_name = 'caso'
@@ -478,7 +477,7 @@ class ConnotacionSexualListView(LoginRequiredMixin, ListView):
         return qs
 
     
-
+'''
 class CasoConnotacionCreateView(LoginRequiredMixin, CreateView):
     
     model = models.CasoVulneracion
@@ -492,7 +491,7 @@ class CasoConnotacionCreateView(LoginRequiredMixin, CreateView):
 
     def get_success_url(self) -> str:
         return reverse('connotacion_add', kwargs={'pk': self.object.id})
-
+'''
     
 class FullConnotacionSexualCreateView(LoginRequiredMixin, CreateView):
     model = models.ConnotacionSexual
@@ -510,7 +509,7 @@ class FullConnotacionSexualCreateView(LoginRequiredMixin, CreateView):
     def get(self, request, *args, **kwargs):
         form = forms.ConnotacionSexualCreateForm()
         form.fields['victima'].queryset = self.get_matriculas()
-        context = {'form' : form, 'caso': forms.CasoVulneracion()}
+        context = {'form' : form, 'caso': forms.ConnotacionSexualCreateForm()}
         return render(request, 'connotacion/create_case.html', context)
 
     # def get_success_url(self) -> str:
@@ -1055,7 +1054,7 @@ class MaltratoAlumnoToAlumnoCreateView(CreateView):
 class MaltratoFuncionarioToAlumnoCreateView(CreateView):
     model = models.Maltrato
     fields = ['victima', 'fecha_creacion', 'detalle', 'funcionario_agresor']
-    template_name = 'maltrato/create_case_alumno_alumno.html'
+    template_name = 'maltrato/create_case_adulto_menor.html'
     context_object_name = 'caso'
 
     def get_matriculas(self):
@@ -1077,7 +1076,7 @@ class MaltratoFuncionarioToAlumnoCreateView(CreateView):
         form.fields['victima'].queryset = self.get_matriculas()
         form.fields['funcionario_agresor'].queryset = self.get_funcionarios()
         context = {'form' : form,}
-        return render(request, 'maltrato/create_case_alumno_alumno.html', context)
+        return render(request, 'maltrato/create_case_adulto_menor.html', context)
     
     def post(self, request, *args, **kwargs):
         form = forms.MaltratoFuncionarioToAlumnoCreateForm(request.POST)
@@ -1088,6 +1087,25 @@ class MaltratoFuncionarioToAlumnoCreateView(CreateView):
             caso_maltrato_funcionario_to_alumno.save()
         return HttpResponseRedirect(reverse_lazy('maltrato_detail', args=[caso_maltrato_funcionario_to_alumno.id]))
 
+class MaltratoAdultoToAdultoCreateView(CreateView):
+    model = models.Maltrato
+    fields = ['funcionario_victima', 'fecha_creacion', 'detalle', 'funcionario_agresor']
+    template_name = 'maltrato/create_case_adulto_adulto.html'
+    context_object_name = 'caso'
+
+    def get_matriculas(self):
+        if self.request.user.is_admin:
+            qs = models.FuncionarioEstablecimiento.objects.all()
+        else:
+            qs = models.FuncionarioEstablecimiento.objects.filter(establecimiento = self.request.user.establecimiento)
+        return qs
+
+    def get(self, request, *args, **kwargs):
+        form = forms.MaltratoFuncionarioToFuncionarioCreateForm()
+        form.fields['funcionario_victima'].queryset = self.get_matriculas()
+        form.fields['funcionario_agresor'].queryset = self.get_matriculas()
+        context = {'form' : form,}
+        return render(request, 'maltrato/create_case_adulto_adulto.html', context)
 
 
 """

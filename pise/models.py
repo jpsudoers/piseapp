@@ -24,9 +24,6 @@ class Alumno(models.Model):
     def __str__(self) -> str:
         return f'{self.nombre} {self.apellido}'
 '''
-#region utils
-
-#endregion
 class Establecimiento(models.Model):
     usuario = models.OneToOneField(get_user_model(), on_delete=models.CASCADE)
     nombre = models.CharField(max_length=255, blank=True, null=True)
@@ -284,25 +281,25 @@ class Maltrato(models.Model):
 
 
     TIPO_CHOICES = [
-        ('Hacia Estudiantes', (
-            ('adulto', 'Adulto a Estudiantes'),
-            ('estudiante', 'Estudiante a Estudiante'),
+        ('Hacia Menor', (
+            ('adulto', 'Adulto a Menor'),
+            ('menor', 'Menor a Menor'),
         )
          ),
-        ('Hacia Funcionarios', (
+        ('Hacia Adulto', (
             ('alumno_docente', 'Alumno a Docente o Funcionarios'),
             ('apoderado', 'Apoderado a Docente o Funcionarios')
-
         ),
          )
     ]
     funcionario_agresor = models.ForeignKey(FuncionarioEstablecimiento, on_delete=models.CASCADE,null=True, blank=True, related_name="funcionario_agresor")
     alumno_agresor = models.ForeignKey(Matricula, null=True, blank=True, on_delete=models.CASCADE, related_name="alumno_agresor")
-
+    denunciante = models.CharField(max_length=255, blank=True, null=True)
     funcionario_victima = models.ForeignKey(FuncionarioEstablecimiento, on_delete=models.CASCADE, null=True, blank=True, related_name="funcionario_victima")
     victima = models.ForeignKey(Matricula, on_delete=models.CASCADE)
     tipo_maltrato = models.CharField(max_length=255, choices=TIPO_CHOICES, default='estudiante', null=True)
     detalle = models.CharField(max_length=255)
+    archivo_declaracion_individual = models.FileField(upload_to='declaracion_individual/maltrato', blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.pk} - {self.fecha_creacion}'
@@ -342,6 +339,8 @@ class ConnotacionSexual(models.Model):
     tipo_connotacion_sexual = models.CharField(max_length=255, choices=CS_CHOICES, default=AGRESION_SEXUAL)
     detalle = models.CharField(max_length=255, null=True)
     victima = models.ForeignKey(Matricula, on_delete=models.CASCADE)
+    denunciante = models.CharField(max_length=255, blank=True, null=True)
+    archivo_declaracion_individual = models.FileField(upload_to='declaracion_individual/ConnotacionSexual', blank=True, null=True)
 
     def __str__(self) -> str:
         return f'{self.fecha_creacion} - {self.detalle}'
@@ -537,9 +536,12 @@ class VulneracionDerechosFuncionarios(models.Model):
     estado = models.CharField(max_length=255, choices=STATE_CHOICES, default=NOLEIDO)
     tipo_vulneracion = models.CharField(max_length=255, choices=TIPO_CHOICES, default=INCUMPLIMIENTO)
     funcionario_afectado = models.ForeignKey(FuncionarioEstablecimiento, on_delete=models.CASCADE)
+    denunciante = models.CharField(max_length=255, blank=True, null=True)
     fecha = models.DateField()
     detalle = models.CharField(max_length=255)
+    archivo_declaracion_individual = models.FileField(upload_to='declaracion_individual/vulneracion', blank=True, null=True)
 
+    
     class Meta:
         db_table = 'vulneracion_derechos_funcionarios'
         verbose_name = "Vulneracion de derechos a funcionarios"

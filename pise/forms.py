@@ -93,10 +93,13 @@ class MaltratoCreateForm(forms.ModelForm):
 class MaltratoAlumnoToAlumnoCreateForm(forms.ModelForm):
     class Meta:
         model = models.Maltrato
-        fields = ['fecha_creacion', 'tipo_maltrato', 'victima','detalle', 'alumno_agresor']
+        fields = ['fecha_creacion', 'denunciante', 'victima','detalle', 'alumno_agresor','archivo_declaracion_individual']
         widgets = {
             'detalle': forms.Textarea(
                 attrs={'class': 'form-control', 'placeholder': 'Relato de lo sucedido', 'required': True}
+            ),
+            'denunciante': forms.TextInput(
+                attrs={'class': 'form-control',}
             ),
             'victima': forms.Select(
                 attrs={'class': 'form-control',}
@@ -112,19 +115,30 @@ class MaltratoAlumnoToAlumnoCreateForm(forms.ModelForm):
                     'class': 'form-control',
                     'type': 'date'
                 }
+            ),
+            'archivo_declaracion_individual': forms.ClearableFileInput(
+                attrs={'class': 'form-control'}
             )
         }
-
+        labels = {
+            'fecha_creacion': "Fecha de la Denuncia",
+            'victima': "Identificacion del Supuesto Afectado",
+            'alumno_agresor': "Identificacion del Supuesto Agresor",
+            'denunciante':"Identificacion del Denunciante",
+        }
 
 class MaltratoFuncionarioToAlumnoCreateForm(forms.ModelForm):
     class Meta:
         model = models.Maltrato
-        fields = ['fecha_creacion', 'victima','detalle', 'funcionario_agresor']
+        fields = ['fecha_creacion', 'denunciante','victima','detalle', 'funcionario_agresor','archivo_declaracion_individual']
         widgets = {
             'detalle': forms.Textarea(
                 attrs={'class': 'form-control', 'placeholder': 'Relato de lo sucedido', 'required': True}
             ),
             'victima': forms.Select(
+                attrs={'class': 'form-control',}
+            ),
+            'denunciante': forms.TextInput(
                 attrs={'class': 'form-control',}
             ),
             'funcionario_agresor': forms.Select(
@@ -135,22 +149,36 @@ class MaltratoFuncionarioToAlumnoCreateForm(forms.ModelForm):
                     'class': 'form-control',
                     'type': 'date'
                 }
+            ),
+            'archivo_declaracion_individual': forms.ClearableFileInput(
+                attrs={'class': 'form-control'}
             )
         }
+        labels = {
+            'fecha_creacion': "Fecha de la Denuncia",
+            'victima': "Identificacion del Supuesto Afectado",
+            'funcionario_agresor': "Identificacion del Supuesto Agresor",
+            'denunciante':"Identificacion del Denunciante",
+        }
 
-
-class ConnotacionSexualCreateForm(forms.ModelForm):
+class MaltratoFuncionarioToFuncionarioCreateForm(forms.ModelForm):
     class Meta:
-        model = models.ConnotacionSexual
-        fields = ['fecha_creacion','tipo_connotacion_sexual', 'detalle', 'victima']
+        model = models.Maltrato
+        fields = ['fecha_creacion','denunciante', 'funcionario_victima','detalle', 'funcionario_agresor','archivo_declaracion_individual']
         widgets = {
             'detalle': forms.Textarea(
                 attrs={'class': 'form-control', 'placeholder': 'Relato de lo sucedido', 'required': True}
             ),
-            'victima': forms.Select(
+            'denunciante': forms.TextInput(
                 attrs={'class': 'form-control',}
             ),
-            'tipo_connotacion_sexual': forms.Select(
+            'funcionario_victima': forms.Select(
+                attrs={'class': 'form-control',}
+            ),
+            'funcionario_agresor': forms.Select(
+                attrs={'class': 'form-control',}
+            ),
+            'tipo_maltrato': forms.Select(
                 attrs={'class': 'form-control',}
             ),
             'fecha_creacion': forms.DateInput(
@@ -158,7 +186,16 @@ class ConnotacionSexualCreateForm(forms.ModelForm):
                     'class': 'form-control',
                     'type': 'date'
                 }
+            ),
+            'archivo_declaracion_individual': forms.ClearableFileInput(
+                attrs={'class': 'form-control'}
             )
+        }
+        labels = {
+            'fecha_creacion': "Fecha de la Denuncia",
+            'funcionario_victima': "Identificacion del Supuesto Afectado",
+            'funcionario_agresor': "Identificacion del Supuesto Agresor",
+            'denunciante':"Identificacion del Denunciante",
         }
 
 
@@ -274,7 +311,7 @@ class DificultadConstitucionConsejoForm(forms.ModelForm):
 class VulneracionDerechosFuncionariosForm(forms.ModelForm):
     class Meta:
         model = models.VulneracionDerechosFuncionarios
-        fields = ['tipo_vulneracion', 'funcionario_afectado', 'fecha', 'detalle']
+        fields = ['tipo_vulneracion', 'denunciante','funcionario_afectado', 'fecha', 'detalle','archivo_declaracion_individual']
         widgets = {
             'tipo_vulneracion': forms.Select(
                 attrs={'class': 'form-control'}
@@ -288,7 +325,16 @@ class VulneracionDerechosFuncionariosForm(forms.ModelForm):
             'detalle': forms.Textarea(
                 attrs={'class': 'form-control'}
             ),
-
+            'archivo_declaracion_individual': forms.ClearableFileInput(
+                attrs={'class': 'form-control'}
+            ),
+            'denunciante': forms.TextInput(attrs={'class':'form-control'})
+        }
+        labels = {
+            'fecha': "Fecha de la Denuncia",
+            'funcionario_afectado': "Identificacion del Supuesto Afectado",
+            'tipo_vulneracion': "Tipo Vulneración",
+            'denunciante':"Identificacion del Denunciante",
         }
 
 
@@ -386,4 +432,22 @@ class MatriculaEstablecimientoEditForm(forms.ModelForm):
             #matricula
             'nivel': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Descripcion Grado', 'required': True,}),
             'letra': forms.TextInput(attrs={'class': 'form-control', 'placeholder': 'Letra Curso', 'required': True})
+        }
+
+class ConnotacionSexualCreateForm(forms.ModelForm):
+    class Meta:
+        model = models.ConnotacionSexual
+        fields = ['fecha_creacion','denunciante','victima','tipo_connotacion_sexual', 'detalle', 'archivo_declaracion_individual']
+        widgets = {
+            'fecha_creacion': forms.DateInput(attrs={'class': 'form-control','type': 'date'}),
+            'denunciante': forms.TextInput(attrs={'class': 'form-control'}),
+            'victima': forms.Select(attrs={'class': 'form-control'}),
+            'detalle': forms.Textarea(attrs={'class': 'form-control', 'placeholder': 'Relato de lo sucedido', 'required': True}),
+            'tipo_connotacion_sexual': forms.Select(attrs={'class': 'form-control'}),
+            'archivo_declaracion_individual': forms.ClearableFileInput(attrs={'class': 'form-control'}),
+        },
+        labels = {
+            'fecha_creacion': "Fecha de la Denuncia",
+            'victima': "Identificacion del Supuesto Afectado",
+            'denunciante':"Identificacion del Denunciante",
         }

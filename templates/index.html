@@ -1,6 +1,10 @@
 {% extends "base.html" %}
 
 {% block fullcard %}
+{% load static %}
+<img src="{% static 'img/LogoV1.png' %}" style="width:100px" class="mx-auto d-block"> 
+</br>
+<!--#region Alerta rapida-->
 <div class="row">
     <div class="col-sm-12">
         <div class="card card-primary card-outline">
@@ -45,4 +49,10 @@
         </div>
     </div>
 </div>
+<!--#endregion-->
+<!--#region protocolo reglamento-->
+<div class="row">
+
+</div>
+<!--#endregion-->
 {% endblock fullcard %}
