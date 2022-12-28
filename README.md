@@ -43,9 +43,13 @@ Para instalar las dependencias utilizar el siguiente comando por CMD `pip instal
 - Pandas
     - xlrd
     - openpyxl
+- Pillow
+-Django-Storages
 ## 3 Bitacora Errores
 - El sitio responde error 400 : Consultar punto 1.2.3
 - El sitio responde error 403 : Verificar los permisos, consultar punto 1.2.2
 - No es posible acceder al sitio desde una conexion remota: Consultar punto 1.2.4
 - Al cargar Nomina de Alumnos el sitio se actualiza sin realizar ninguna acción: Verificar dependencias instaladas, consultar punto 2
 - Archivos contenidos en media o statics son inaccesibles: Verificar existencia de `web.config` en ambos directorios
+- 'No module named '[depemdencia]' : Revisar dependencias faltantes en el punto 2
+- 'FATAL:  database "DBName" does not exist : Es necesario verificar la BD si fue creada con el nombre que aparece en `Settings.py`
