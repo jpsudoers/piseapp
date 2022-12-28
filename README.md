@@ -44,7 +44,7 @@ Para instalar las dependencias utilizar el siguiente comando por CMD `pip instal
     - xlrd
     - openpyxl
 - Pillow
--Django-Storages
+- Django-Storages
 ## 3 Bitacora Errores
 - El sitio responde error 400 : Consultar punto 1.2.3
 - El sitio responde error 403 : Verificar los permisos, consultar punto 1.2.2
